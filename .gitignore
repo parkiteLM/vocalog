@@ -1,0 +1,29 @@
+# OS / Editor files
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Node & JavaScript dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Expo & Build Artifacts
+.expo/
+dist/
+web-build/
+*.tsbuildinfo
+
+# Native build folders
+android/
+ios/
+
+# Logs & temp
+*.log
+scratch/
+.env
+.env.local
