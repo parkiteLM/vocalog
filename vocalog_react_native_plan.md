@@ -52,6 +52,11 @@ flowchart TD
 * [ ] Verify native C++ toolchain (`clang`, `gcc`, `make`, `cmake`) needed for compiling `whisper.cpp`.
 * [ ] Configure Android SDK environment variables (`ANDROID_HOME`, `platform-tools`).
 * [ ] Initialize clean React Native Expo project (`vocalog-mobile/`) with TypeScript template.
+* [ ] Configure `app.json` with brand logo assets:
+  - App icon: `assets/logo/ios_app_icon_1024.png`
+  - Android adaptive icon: `assets/logo/android_adaptive_foreground_512.png` & background `android_adaptive_background_512.png`
+  - Splash screen: `assets/logo/CleanedLogoOnly.png` on dark slate background (`#0F172A`)
+  - URL scheme: `vocalog`
 * [ ] Configure `tsconfig.json` for strict type-checking and path aliases (`@/*`).
 * [ ] Verify the project starts cleanly with `npx expo config`.
 
@@ -64,6 +69,7 @@ flowchart TD
   - User settings table/store with configurable `retention_days` (default = 21).
   - CRUD operations (insert, query all, query by id, delete, clear audio path).
   - Expiration queries: `getEntriesOlderThan(cutoffTimestamp)`.
+  - Daily date-range query: `getEntriesForDate(date)` filtered by 00:00:00–23:59:59 and ordered latest time first (`ORDER BY created_at DESC`).
 * [ ] Implement `AudioRecorderService`:
   - 16 kHz mono AAC recording configuration (optimal for Whisper).
   - Recording permissions, duration timer, and audio file path resolution.
@@ -97,12 +103,21 @@ flowchart TD
   - Generates dynamic concise title and 1-sentence summary.
 * [ ] Write unit tests verifying that raw transcripts are cleaned and structured with 0 network calls.
 
-### **Phase 4: Dark Slate UI, Timeline Feed & Audio Playback**
-> **Goal:** Deliver a sleek, modern, high-contrast dark theme interface with smooth recording interactions.
+### **Phase 4: Dark Slate UI, Daily Feed with Date Navigation & Audio Playback**
+> **Goal:** Deliver a sleek, modern, high-contrast dark theme interface with date-by-date timeline navigation and smooth recording interactions.
 
 * [ ] Create dark slate/teal design system (`#0F172A`, `#1E293B`, `#2DD4BF`).
+* [ ] Integrate in-app brand logo (`assets/logo/CleanedLogoOnly.png`) into app bar header.
+* [ ] Build **Date Navigator Header**:
+  - Displays selected date (e.g. *"Today — Thursday, Oct 4"*).
+  - Left arrow (`<`) to navigate to previous day's notes.
+  - Right arrow (`>`) to navigate to next day's notes.
+  - "Today" quick-jump chip when viewing past dates.
+* [ ] Build **Daily Feed Screen**:
+  - Filters entries strictly for the selected date, sorted in **reverse-chronological order (latest time first)**.
+  - Sub-header displaying note count and total recording time for the day.
+  - Sleek minimalist empty state when navigating to days without notes.
 * [ ] Build 1-Tap Floating Record button with animated sound-wave pulse and live timer.
-* [ ] Build Timeline Feed screen with search bar, category filter chips (`All`, `Tasks`, `Reflections`, `Notes`), and entry cards.
 * [ ] Build Entry Detail modal:
   - Toggle between "Cleaned Prose" and "Raw Transcript".
   - Audio player for recordings under 21 days old (displays "Audio stored for 21 days").
