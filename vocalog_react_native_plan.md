@@ -15,8 +15,7 @@ flowchart TD
     
     subgraph OnDeviceEngine ["100% On-Device Structuring Engine ($0.00 Cost)"]
         RawTranscript --> FillerRemoval[On-Device Filler Word Stripper<br/>um, uh, like, you know, etc.]
-        FillerRemoval --> SentimentAnalyzer[On-Device Sentiment & Mood Scorer<br/>AFINN / Lexicon-based 1.0 - 5.0]
-        SentimentAnalyzer --> ActionExtractor[Task & Action Item Parser<br/>regex + pattern detection]
+        FillerRemoval --> ActionExtractor[Task & Action Item Parser<br/>regex + pattern detection]
         ActionExtractor --> CategoryClassifier[Bullet Journal Classifier<br/>Task, Reflection, Event, Note]
         CategoryClassifier --> TitleGenerator[Smart Title & Summary Generator]
     end
@@ -33,7 +32,7 @@ flowchart TD
 ### 2.1 Initial Release (v1.0)
 * **Default Audio Retention:** **21 Days**.
 * All recorded `.m4a` audio files older than 21 days are automatically pruned from local storage to conserve phone space.
-* **Text & Insights Permanence:** Text transcripts, cleaned prose, titles, summaries, mood scores, and action items are saved in SQLite forever.
+* **Text & Notes Permanence:** Text transcripts, cleaned prose, titles, summaries, and action items are saved in SQLite forever.
 
 ### 2.2 Future Pro Tier Expansion
 * **Pro Tier Feature:** **Configurable Audio Retention Settings**.
@@ -87,14 +86,11 @@ flowchart TD
 * [ ] Benchmark inference speed and verify complete offline operation (Airplane Mode).
 
 ### **Phase 3: 100% On-Device Structuring & NLP Engine ($0 Cost)**
-> **Goal:** Clean raw transcripts, remove filler words, detect mood metrics, and extract action items without any cloud API calls.
+> **Goal:** Clean raw transcripts, remove filler words, extract action items, and categorize entries without any cloud API calls.
 
 * [ ] Build `OnDeviceCleanerService`:
   - Intelligent regex-based verbal filler removal (`um`, `uh`, `er`, `like`, `you know`, `sort of`, `kind of`, `i mean`).
   - Sentence capitalization, whitespace normalization, and punctuation cleanup.
-* [ ] Build `OnDeviceSentimentService`:
-  - Lexicon-based sentiment scoring evaluating valence and intensity.
-  - Generates mood category (e.g., *Grateful*, *Productive*, *Anxious*, *Calm*, *Fatigued*) and a **1.0 to 5.0 mood score**.
 * [ ] Build `OnDeviceActionExtractor`:
   - Detects commitments, deadlines, and todos from speech patterns.
   - Formats into actionable checkbox bullet items.
