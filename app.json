@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "VocaLog",
+    "slug": "vocalog",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo/ios_app_icon_1024.png",
+    "scheme": "vocalog",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/logo/CleanedLogoOnly.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0F172A"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vocalog.app",
+      "icon": "./assets/logo/ios_app_icon_1024.png"
+    },
+    "android": {
+      "package": "com.vocalog.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo/android_adaptive_foreground_512.png",
+        "backgroundImage": "./assets/logo/android_adaptive_background_512.png",
+        "backgroundColor": "#0F172A"
+      }
+    },
+    "web": {
+      "favicon": "./assets/logo/CleanedLogoOnly.png"
+    },
+    "plugins": []
+  }
+}
