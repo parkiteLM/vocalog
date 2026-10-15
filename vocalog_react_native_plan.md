@@ -59,23 +59,24 @@ flowchart TD
 * [x] Configure `tsconfig.json` for strict type-checking and path aliases (`@/*`).
 * [x] Verify the project starts cleanly with `npx expo config` and passes `npx tsc --noEmit`.
 
-### **Phase 1: Local Audio Recording, 21-Day Retention Cleanup & SQLite Database**
+### **Phase 1: Local Audio Recording, 21-Day Retention Cleanup & SQLite Database** (Completed)
 > **Goal:** Zero-cloud recording, automated disk management with 21-day threshold, and persistent local storage.
 
-* [ ] Install core libraries: `expo-sqlite`, `expo-file-system`, `expo-av`, `lucide-react-native`, `zustand`, `date-fns`.
-* [ ] Implement `DatabaseService` using `expo-sqlite`:
-  - Table `entries` with date indexing.
-  - User settings table/store with configurable `retention_days` (default = 21).
+* [x] Install core libraries: `expo-sqlite`, `expo-file-system`, `expo-av`, `lucide-react-native`, `zustand`, `date-fns`.
+* [x] Implement `DatabaseService` using `expo-sqlite`:
+  - Table `entries` with date indexing (`idx_entries_created_at`).
+  - User settings table with configurable `retention_days` (default = 21).
   - CRUD operations (insert, query all, query by id, delete, clear audio path).
   - Expiration queries: `getEntriesOlderThan(cutoffTimestamp)`.
   - Daily date-range query: `getEntriesForDate(date)` filtered by 00:00:00–23:59:59 and ordered latest time first (`ORDER BY created_at DESC`).
-* [ ] Implement `AudioRecorderService`:
+* [x] Implement `AudioRecorderService`:
   - 16 kHz mono AAC recording configuration (optimal for Whisper).
   - Recording permissions, duration timer, and audio file path resolution.
-* [ ] Implement **21-Day Local Audio Auto-Cleanup Routine**:
+* [x] Implement **21-Day Local Audio Auto-Cleanup Routine**:
   - Scans recordings directory on app launch and post-recording.
   - Safely deletes `.m4a` files older than **21 days** (configurable via parameter for future Pro tier).
-* [ ] Write unit tests for data layer and the 21-day retention calculation.
+  - Sweeps orphaned files with no DB record.
+* [x] Write unit tests for data layer and the 21-day retention calculation (6/6 tests passing in Jest).
 
 ### **Phase 2: 100% On-Device Offline Whisper Speech-to-Text Engine**
 > **Goal:** Embed local quantized model weights and run native C++ speech recognition without internet access.
