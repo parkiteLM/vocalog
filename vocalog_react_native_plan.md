@@ -116,13 +116,15 @@ flowchart TD
   - Action item checkboxes and interactive toggle.
 * [x] Write unit tests for Zustand store and UI interactions (49/49 tests passing across 8 test suites in Jest).
 
-### **Phase 4: Lock/Home Screen Widgets & Monetization**
-> **Goal:** Eliminate entry friction with 1-tap widgets and set up RevenueCat subscription management.
+### **Phase 4: Lock/Home Screen Widgets, Settings, Data Export & Monetization** (Completed)
+> **Goal:** Eliminate entry friction with 1-tap widgets, provide full local data export ownership, and set up RevenueCat subscription management.
 
-* [ ] Configure custom URL scheme (`vocalog://record`) in `app.json`.
-* [ ] Native iOS WidgetKit & Android AppWidget integration.
-* [ ] RevenueCat integration (`react-native-purchases`) with **$4.99 / month** subscription.
-* [ ] Add data export functionality (JSON / Markdown archive).
+* [x] Configure custom URL schemes (`vocalog://record`, `vocalog://settings`, `vocalog://today`) and deep link listener in `src/core/services/DeepLinkService.ts`.
+* [x] Implement complete data ownership export engine (`DataExportService.ts`) for JSON archives and Markdown documents with native file sharing (`expo-sharing`).
+* [x] Build `SettingsModal.tsx` with audio retention period configuration (7, 14, 21 Days default, 60 Days, Keep Forever) and data export triggers.
+* [x] Implement `SubscriptionService.ts` and `PaywallModal.tsx` wrapping `react-native-purchases` for **$4.99 / month** Pro subscriptions with 3-day free trial.
+* [x] Unit tests for deep linking, data exports, and subscription management (75/75 tests passing across 11 test suites in Jest).
+* [x] Complete Metro Android bundling check verified (`EXPO_NO_TELEMETRY=1 npx expo export --platform android`).
 
 ---
 

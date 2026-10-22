@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,17 @@ import {
   SafeAreaView,
   ActivityIndicator,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
-import { ShieldCheck, Mic } from 'lucide-react-native';
+import { ShieldCheck, Mic, Settings as SettingsIcon } from 'lucide-react-native';
 import { Colors, Spacing, BorderRadius } from '../../core/theme';
 import { useJournalStore } from '../../state/useJournalStore';
+import { deepLinkService } from '../../core/services/DeepLinkService';
 import { DateNavigator } from '../components/DateNavigator';
 import { EntryCard } from '../components/EntryCard';
 import { FloatingRecordButton } from '../components/FloatingRecordButton';
 import { EntryDetailModal } from '../components/EntryDetailModal';
+import { SettingsModal } from '../components/SettingsModal';
 
 export const DailyFeedScreen: React.FC = () => {
   const {
@@ -23,9 +26,34 @@ export const DailyFeedScreen: React.FC = () => {
     isLoading,
     runAppStartupRoutine,
   } = useJournalStore();
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
   useEffect(() => {
     runAppStartupRoutine();
+
+    let cleanupDeepLink: (() => void) | undefined;
+    deepLinkService
+      .initListener((action) => {
+        if (action === 'record') {
+          const state = useJournalStore.getState();
+          if (!state.isRecording && !state.isProcessing) {
+            state.startRecording();
+          }
+        } else if (action === 'settings') {
+          setIsSettingsVisible(true);
+        } else if (action === 'today') {
+          useJournalStore.getState().jumpToToday();
+        }
+      })
+      .then((unsub) => {
+        cleanupDeepLink = unsub;
+      });
+
+    return () => {
+      if (cleanupDeepLink) {
+        cleanupDeepLink();
+      }
+    };
   }, [runAppStartupRoutine]);
 
   // Compute daily totals
@@ -48,9 +76,20 @@ export const DailyFeedScreen: React.FC = () => {
           <Text style={styles.brandTitle}>VocaLog</Text>
         </View>
 
-        <View style={styles.privacyBadge}>
-          <ShieldCheck size={12} color={Colors.primary} style={{ marginRight: 4 }} />
-          <Text style={styles.privacyText}>100% Offline</Text>
+        <View style={styles.headerRight}>
+          <View style={styles.privacyBadge}>
+            <ShieldCheck size={12} color={Colors.primary} style={{ marginRight: 4 }} />
+            <Text style={styles.privacyText}>100% Offline</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.settingsButton}
+            onPress={() => setIsSettingsVisible(true)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            accessibilityLabel="Settings"
+            accessibilityRole="button"
+          >
+            <SettingsIcon size={20} color={Colors.textSecondary} />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -100,6 +139,12 @@ export const DailyFeedScreen: React.FC = () => {
 
       {/* Entry Detail & Audio Player Modal */}
       <EntryDetailModal />
+
+      {/* Settings & Privacy Modal */}
+      <SettingsModal
+        visible={isSettingsVisible}
+        onClose={() => setIsSettingsVisible(false)}
+      />
     </SafeAreaView>
   );
 };
@@ -143,6 +188,21 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.full,
     borderWidth: 1,
     borderColor: 'rgba(45, 212, 191, 0.25)',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  settingsButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   privacyText: {
     color: Colors.primary,
