@@ -19,6 +19,9 @@
     },
     "android": {
       "package": "com.vocalog.app",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo/android_adaptive_foreground_512.png",
         "backgroundImage": "./assets/logo/android_adaptive_background_512.png",
