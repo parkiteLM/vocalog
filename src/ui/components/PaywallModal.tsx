@@ -168,6 +168,19 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
             <Text style={styles.restoreText}>Restore Purchases</Text>
           </TouchableOpacity>
 
+          {/* Test / QA Bypass Link */}
+          <TouchableOpacity
+            style={styles.devBypassBtn}
+            onPress={() => {
+              subscriptionService.setMockPro(true);
+              Alert.alert('Testing Mode', 'All Pro features have been unlocked for this test build.');
+              onSuccess?.();
+              onClose();
+            }}
+          >
+            <Text style={styles.devBypassText}>Test Build: Free QA Unlock Pass</Text>
+          </TouchableOpacity>
+
           {/* Legal Footnote */}
           <Text style={styles.legalNotice}>
             Cancel anytime in App Store / Google Play settings. Subscription renews automatically unless cancelled 24 hours before the end of the trial period.
@@ -309,12 +322,23 @@ const styles = StyleSheet.create({
   restoreBtn: {
     alignItems: 'center',
     paddingVertical: Spacing.xs,
-    marginBottom: Spacing.sm,
+    marginBottom: Spacing.xs,
   },
   restoreText: {
     color: Colors.textSecondary,
     fontSize: 13,
     fontWeight: '600',
+  },
+  devBypassBtn: {
+    alignItems: 'center',
+    paddingVertical: Spacing.xs,
+    marginBottom: Spacing.sm,
+  },
+  devBypassText: {
+    color: Colors.primary,
+    fontSize: 12,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
   },
   legalNotice: {
     color: Colors.textMuted,

@@ -5,7 +5,10 @@ export const PRO_MONTHLY_PRICE = '$4.99 / month';
 
 export class SubscriptionService {
   private isConfigured = false;
-  private isDevMockPro = false; // Dev toggle for testing Pro features
+  // Automatically unlock all Pro features when EXPO_PUBLIC_UNLOCK_ALL_FEATURES is true
+  private isDevMockPro =
+    process.env.EXPO_PUBLIC_UNLOCK_ALL_FEATURES === 'true' ||
+    process.env.EXPO_PUBLIC_TEST_MODE === 'true';
 
   /**
    * Initializes RevenueCat Purchases SDK.
