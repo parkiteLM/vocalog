@@ -88,3 +88,4 @@ describe('WhisperTranscriptionService (100% On-Device Speech-to-Text)', () => {
     expect(mockRelease).toHaveBeenCalled();
   });
 });
+

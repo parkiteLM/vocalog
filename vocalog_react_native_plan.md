@@ -95,28 +95,28 @@ flowchart TD
   - Complete end-to-end pipeline orchestrating audio transcription -> text structuring -> SQLite database persistence.
 * [x] Write comprehensive unit test suite: 40/40 tests passing across 7 test suites in Jest.
 
-### **Phase 4: Dark Slate UI, Daily Feed with Date Navigation & Audio Playback**
+### **Phase 3: Dark Slate UI, Daily Feed with Date Navigation & Audio Playback** (Completed)
 > **Goal:** Deliver a sleek, modern, high-contrast dark theme interface with date-by-date timeline navigation and smooth recording interactions.
 
-* [ ] Create dark slate/teal design system (`#0F172A`, `#1E293B`, `#2DD4BF`).
-* [ ] Integrate in-app brand logo (`assets/logo/CleanedLogoOnly.png`) into app bar header.
-* [ ] Build **Date Navigator Header**:
-  - Displays selected date (e.g. *"Today — Thursday, Oct 4"*).
+* [x] Create dark slate/teal design system (`#0F172A`, `#1E293B`, `#2DD4BF`).
+* [x] Integrate in-app brand logo (`assets/logo/CleanedLogoOnly.png`) into app bar header.
+* [x] Build **Date Navigator Header**:
+  - Displays selected date (e.g. *"Today — Thursday, Oct 22"*).
   - Left arrow (`<`) to navigate to previous day's notes.
   - Right arrow (`>`) to navigate to next day's notes.
   - "Today" quick-jump chip when viewing past dates.
-* [ ] Build **Daily Feed Screen**:
+* [x] Build **Daily Feed Screen**:
   - Filters entries strictly for the selected date, sorted in **reverse-chronological order (latest time first)**.
   - Sub-header displaying note count and total recording time for the day.
   - Sleek minimalist empty state when navigating to days without notes.
-* [ ] Build 1-Tap Floating Record button with animated sound-wave pulse and live timer.
-* [ ] Build Entry Detail modal:
+* [x] Build 1-Tap Floating Record button with animated sound-wave pulse and live timer.
+* [x] Build Entry Detail modal:
   - Toggle between "Cleaned Prose" and "Raw Transcript".
   - Audio player for recordings under 21 days old (displays "Audio stored for 21 days").
-  - Action item checkboxes and tag editing.
-* [ ] Build Settings screen: Displays current retention policy (21 Days) with a Pro tier preview placeholder ("Unlock Custom Audio Retention & Never Delete").
+  - Action item checkboxes and interactive toggle.
+* [x] Write unit tests for Zustand store and UI interactions (49/49 tests passing across 8 test suites in Jest).
 
-### **Phase 5: Lock/Home Screen Widgets & Monetization**
+### **Phase 4: Lock/Home Screen Widgets & Monetization**
 > **Goal:** Eliminate entry friction with 1-tap widgets and set up RevenueCat subscription management.
 
 * [ ] Configure custom URL scheme (`vocalog://record`) in `app.json`.

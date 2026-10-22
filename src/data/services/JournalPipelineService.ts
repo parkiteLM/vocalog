@@ -69,3 +69,4 @@ export class JournalPipelineService {
 }
 
 export const journalPipelineService = new JournalPipelineService();
+

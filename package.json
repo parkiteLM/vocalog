@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.ts",
   "dependencies": {
+    "buffer": "^6.0.3",
     "date-fns": "^4.4.0",
     "expo": "~57.0.28",
     "expo-av": "^16.0.8",

@@ -82,3 +82,4 @@ describe('JournalPipelineService (End-to-End Orchestrator)', () => {
     expect(mockInsertEntry).toHaveBeenCalledWith(entry);
   });
 });
+

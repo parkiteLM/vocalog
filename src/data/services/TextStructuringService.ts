@@ -285,3 +285,4 @@ class TextStructuringService {
 }
 
 export const textStructuringService = new TextStructuringService();
+
