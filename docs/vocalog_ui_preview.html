@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VocaLog UI Preview</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.35); opacity: 0.15; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .animate-pulse-ring {
+      animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    ::-webkit-scrollbar { display: none; }
+    * { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-[#0B0F19] text-slate-100 flex items-center justify-center min-h-screen p-4 antialiased selection:bg-teal-500 selection:text-slate-900">
+
+  <!-- Mobile Frame Container -->
+  <div class="w-full max-w-[410px] h-[844px] bg-[#0F172A] border-[3px] border-slate-700/80 rounded-[44px] shadow-2xl relative flex flex-col overflow-hidden shadow-teal-950/20">
+
+    <!-- Notch / Status Bar -->
+    <div class="pt-3 px-6 pb-2 flex justify-between items-center text-xs font-semibold text-slate-400 select-none">
+      <span>9:41</span>
+      <div class="w-24 h-4 bg-slate-800 rounded-full mx-auto"></div>
+      <div class="flex items-center space-x-1.5">
+        <svg class="w-3.5 h-3.5 text-slate-300" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+        <svg class="w-3.5 h-3.5 text-slate-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M17.778 8.222c-4.296-4.296-11.26-4.296-15.556 0A1 1 0 01.808 6.808c5.076-5.077 13.308-5.077 18.384 0a1 1 0 01-1.414 1.414zM14.95 11.05a7 7 0 00-9.9 0 1 1 0 01-1.414-1.414 9 9 0 0112.728 0 1 1 0 01-1.414 1.414zM12.12 13.88a3 3 0 00-4.242 0 1 1 0 01-1.415-1.415 5 5 0 017.072 0 1 1 0 01-1.415 1.415zM9 16a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+        <div class="w-5 h-2.5 border border-slate-400 rounded-sm p-0.5 flex items-center"><div class="w-full h-full bg-slate-300 rounded-2xs"></div></div>
+      </div>
+    </div>
+
+    <!-- App Bar Header -->
+    <header class="px-5 py-2.5 flex items-center justify-between border-b border-slate-800/80 bg-[#0F172A]/90 backdrop-blur z-10">
+      <div class="flex items-center space-x-2.5">
+        <img src="data:image/png;base64,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" alt="VocaLog Logo" class="w-7 h-7 object-contain rounded-md" />
+        <span class="text-xl font-extrabold tracking-tight text-white">VocaLog</span>
+      </div>
+      <div class="flex items-center space-x-1.5 px-2.5 py-1 bg-teal-500/10 border border-teal-500/30 rounded-full">
+        <svg class="w-3 h-3 text-[#2DD4BF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        <span class="text-[11px] font-semibold text-[#2DD4BF]">100% Offline</span>
+      </div>
+    </header>
+
+    <!-- Scrollable Content View -->
+    <main class="flex-1 overflow-y-auto px-4 pt-3 pb-28 relative" id="feedScroll">
+      
+      <!-- Top Date Navigator Header -->
+      <section class="bg-[#1E293B] border border-slate-700/60 rounded-2xl p-3 mb-3 shadow-sm">
+        <div class="flex items-center justify-between">
+          <button id="prevDayBtn" class="w-9 h-9 rounded-lg bg-[#131E35] hover:bg-slate-700/80 active:scale-95 transition flex items-center justify-center text-slate-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          
+          <div class="text-center px-2">
+            <h2 id="dateLabel" class="text-sm font-semibold text-white tracking-wide">Today — Thursday, Oct 22</h2>
+          </div>
+
+          <button id="nextDayBtn" class="w-9 h-9 rounded-lg bg-[#131E35] hover:bg-slate-700/80 active:scale-95 transition flex items-center justify-center text-slate-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <button id="jumpTodayBtn" style="display: none;" class="mx-auto mt-2.5 px-3 py-1 bg-teal-500/15 border border-teal-500/30 rounded-full flex items-center space-x-1.5 active:scale-95 transition">
+          <svg class="w-3.5 h-3.5 text-[#2DD4BF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span class="text-xs font-semibold text-[#2DD4BF]">Jump to Today</span>
+        </button>
+      </section>
+
+      <!-- Stats Bar -->
+      <div id="statsBar" class="flex items-center justify-between px-1 mb-3 text-xs text-slate-400 font-medium">
+        <span id="statsNoteCount">3 entries • 2m 45s recorded</span>
+        <span class="text-slate-500">Latest first</span>
+      </div>
+
+      <!-- Feed Container -->
+      <div id="feedList" class="space-y-3">
+
+        <!-- Entry 1: Task (Latest - 2:45 PM) -->
+        <article onclick="openDetailModal('entry1')" class="bg-[#1E293B] border border-slate-700/70 hover:border-teal-500/40 rounded-2xl p-4 cursor-pointer active:scale-[0.99] transition shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-teal-500/15 text-[#2DD4BF] border border-teal-500/20">TASK</span>
+              <span class="text-xs text-slate-400">2:45 PM</span>
+              <span class="bg-[#131E35] px-1.5 py-0.5 rounded text-[11px] font-mono text-slate-300">0:45</span>
+            </div>
+            <button class="text-slate-500 hover:text-rose-400 p-1" onclick="event.stopPropagation(); deleteCard(this);">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+          <h3 class="text-[16px] font-bold text-white leading-snug mb-1">Architectural Review for VocaLog</h3>
+          <p class="text-sm text-slate-300 line-clamp-2 leading-relaxed mb-3">
+            I finished reviewing the local SQLite WAL configuration. We need to make sure the audio files automatically prune after 21 days while keeping transcripts permanent.
+          </p>
+          <div class="flex items-center justify-between pt-2.5 border-t border-slate-800 text-xs">
+            <div class="flex items-center space-x-1.5 px-2 py-0.5 bg-[#131E35] rounded-full text-slate-300 font-medium">
+              <svg class="w-3.5 h-3.5 text-[#2DD4BF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>2 Action Items</span>
+            </div>
+            <div class="flex items-center space-x-1 text-[#2DD4BF] font-medium text-[11px]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+              <span>21d Audio</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Entry 2: Reflection (11:15 AM) -->
+        <article onclick="openDetailModal('entry2')" class="bg-[#1E293B] border border-slate-700/70 hover:border-purple-500/40 rounded-2xl p-4 cursor-pointer active:scale-[0.99] transition shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-purple-500/15 text-purple-400 border border-purple-500/20">REFLECTION</span>
+              <span class="text-xs text-slate-400">11:15 AM</span>
+              <span class="bg-[#131E35] px-1.5 py-0.5 rounded text-[11px] font-mono text-slate-300">1:18</span>
+            </div>
+            <button class="text-slate-500 hover:text-rose-400 p-1" onclick="event.stopPropagation(); deleteCard(this);">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+          <h3 class="text-[16px] font-bold text-white leading-snug mb-1">Morning Clarity & Offline Freedom</h3>
+          <p class="text-sm text-slate-300 line-clamp-2 leading-relaxed mb-3">
+            I felt really grateful for taking an early morning walk without notifications. Realized that building a zero-cloud tool gives genuine peace of mind.
+          </p>
+          <div class="flex items-center justify-between pt-2.5 border-t border-slate-800 text-xs">
+            <div></div>
+            <div class="flex items-center space-x-1 text-slate-400 font-medium text-[11px]">
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+              <span>21d Audio</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Entry 3: Event (8:30 AM) -->
+        <article onclick="openDetailModal('entry3')" class="bg-[#1E293B] border border-slate-700/70 hover:border-cyan-500/40 rounded-2xl p-4 cursor-pointer active:scale-[0.99] transition shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-cyan-500/15 text-cyan-400 border border-cyan-500/20">EVENT</span>
+              <span class="text-xs text-slate-400">8:30 AM</span>
+              <span class="bg-[#131E35] px-1.5 py-0.5 rounded text-[11px] font-mono text-slate-300">0:42</span>
+            </div>
+            <button class="text-slate-500 hover:text-rose-400 p-1" onclick="event.stopPropagation(); deleteCard(this);">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+          <h3 class="text-[16px] font-bold text-white leading-snug mb-1">Sprint Kickoff Tomorrow at 10am</h3>
+          <p class="text-sm text-slate-300 line-clamp-2 leading-relaxed mb-3">
+            Meeting with the product engineering team tomorrow at 10am to finalize the offline voice journal launch roadmap.
+          </p>
+          <div class="flex items-center justify-between pt-2.5 border-t border-slate-800 text-xs">
+            <div class="flex items-center space-x-1.5 px-2 py-0.5 bg-[#131E35] rounded-full text-slate-300 font-medium">
+              <svg class="w-3.5 h-3.5 text-[#2DD4BF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>1 Action Item</span>
+            </div>
+            <div class="flex items-center space-x-1 text-[#2DD4BF] font-medium text-[11px]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+              <span>21d Audio</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" style="display: none;" class="flex-col items-center justify-center py-20 px-6 text-center">
+        <div class="w-16 h-16 rounded-full bg-[#1E293B] border border-slate-700 flex items-center justify-center mb-4 text-slate-500">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+        </div>
+        <h4 class="text-base font-bold text-white mb-1">No reflections for this day</h4>
+        <p class="text-xs text-slate-400 max-w-xs leading-relaxed">
+          Tap the teal microphone below to record a spontaneous thought, reflection, or to-do.
+        </p>
+      </div>
+    </main>
+
+    <!-- Floating Record Action Button & Live HUD -->
+    <div class="absolute bottom-6 left-0 right-0 flex flex-col items-center justify-center pointer-events-none z-20">
+      
+      <!-- Live Recording Timer Pill -->
+      <div id="recordingTimerPill" style="display: none;" class="mb-3 px-3.5 py-1.5 bg-[#1E293B] border border-rose-500 rounded-full flex items-center space-x-2 shadow-lg pointer-events-auto">
+        <span class="w-2.5 h-2.5 bg-rose-500 rounded-full animate-ping"></span>
+        <span id="recordingTimerText" class="text-xs font-mono font-bold text-white tracking-wider">0:00</span>
+      </div>
+
+      <!-- Processing Toast -->
+      <div id="processingPill" style="display: none;" class="mb-3 px-4 py-2 bg-[#1E293B] border border-teal-500 rounded-full flex items-center space-x-2.5 shadow-xl pointer-events-auto">
+        <svg class="animate-spin w-4 h-4 text-[#2DD4BF]" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+        <span class="text-xs font-semibold text-white">Transcribing on-device ($0.00)...</span>
+      </div>
+
+      <!-- Buttons Row -->
+      <div class="flex items-center justify-center w-full px-12 pointer-events-auto relative">
+        
+        <!-- Cancel Button -->
+        <button id="cancelRecordBtn" style="display: none;" onclick="cancelActiveRecording()" class="w-11 h-11 rounded-full bg-[#1E293B] border border-slate-700 hover:bg-slate-700/80 active:scale-95 transition flex items-center justify-center text-slate-300 mr-5 shadow-lg">
+          <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        <!-- Main Button Wrapper -->
+        <div class="relative flex items-center justify-center">
+          <!-- Pulse Ring (Strictly pointer-events-none so clicks hit the button!) -->
+          <div id="pulseRing" style="display: none;" class="pointer-events-none absolute w-20 h-20 rounded-full bg-rose-500/40 animate-pulse-ring z-0"></div>
+          
+          <button id="mainRecordBtn" onclick="toggleRecording()" class="relative z-10 w-16 h-16 rounded-full bg-[#2DD4BF] hover:bg-[#26c4b0] active:scale-90 transition-all flex items-center justify-center text-slate-950 shadow-lg shadow-teal-500/25 cursor-pointer">
+            <svg id="micIcon" class="w-8 h-8 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+            <svg id="stopIcon" style="display: none;" class="w-7 h-7 text-white fill-white pointer-events-none" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>
+          </button>
+        </div>
+
+        <div id="balancePlaceholder" style="display: none;" class="w-11 h-11 ml-5"></div>
+      </div>
+    </div>
+
+    <!-- Slide-Up Entry Detail Modal -->
+    <div id="detailModal" style="display: none;" class="absolute inset-0 bg-black/75 z-30 flex flex-col justify-end backdrop-blur-xs">
+      <div class="bg-[#1E293B] border-t border-slate-700 rounded-t-3xl max-h-[85%] p-5 flex flex-col shadow-2xl">
+        
+        <!-- Modal Top Bar -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <span id="modalCategoryBadge" class="px-2.5 py-0.5 rounded text-[11px] font-bold tracking-wider bg-teal-500/15 text-[#2DD4BF]">TASK</span>
+          <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Scrollable Modal Body -->
+        <div class="overflow-y-auto py-4 space-y-4">
+          <div>
+            <h2 id="modalTitle" class="text-xl font-extrabold text-white leading-tight mb-1">Architectural Review for VocaLog</h2>
+            <p id="modalDate" class="text-xs text-slate-400">Thursday, October 22, 2026 • 2:45 PM</p>
+          </div>
+
+          <!-- Audio Player Bar -->
+          <div class="bg-[#131E35] border border-slate-700/60 rounded-xl p-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <button id="modalPlayBtn" onclick="toggleAudioPlayback()" class="w-10 h-10 rounded-full bg-[#2DD4BF] text-slate-900 flex items-center justify-center active:scale-95 transition">
+                <svg id="playIcon" class="w-5 h-5 ml-0.5 fill-slate-900" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg id="pauseIcon" style="display: none;" class="w-5 h-5 fill-slate-900" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              </button>
+              <div>
+                <p class="text-xs font-bold text-white">Voice Recording</p>
+                <p class="text-[11px] text-slate-400">0:45 • Stored for 21 days</p>
+              </div>
+            </div>
+            <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+              <div id="audioProgress" class="w-0 h-full bg-[#2DD4BF] transition-all duration-300"></div>
+            </div>
+          </div>
+
+          <!-- Segmented Control: Cleaned Prose vs. Raw Speech -->
+          <div class="bg-[#131E35] p-1 rounded-xl flex">
+            <button id="tabCleaned" onclick="switchTab('cleaned')" class="flex-1 py-1.5 rounded-lg text-xs font-bold text-[#2DD4BF] bg-[#1E293B] shadow-sm transition">
+              Cleaned Prose
+            </button>
+            <button id="tabRaw" onclick="switchTab('raw')" class="flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition">
+              Raw Transcript
+            </button>
+          </div>
+
+          <!-- Prose Text Content -->
+          <div class="bg-[#131E35] border border-slate-800 rounded-xl p-4">
+            <p id="modalBodyText" class="text-sm text-slate-200 leading-relaxed">
+              I finished reviewing the local SQLite WAL configuration. We need to make sure the audio files automatically prune after 21 days while keeping transcripts permanent.
+            </p>
+          </div>
+
+          <!-- Action Items Checklist -->
+          <div id="modalActionSection">
+            <h4 class="text-xs font-bold text-slate-400 tracking-wider mb-2">ACTION ITEMS</h4>
+            <div class="space-y-2" id="modalActionList">
+              <label class="flex items-start space-x-2.5 bg-[#131E35] p-2.5 rounded-lg cursor-pointer">
+                <input type="checkbox" class="mt-0.5 rounded border-slate-600 text-teal-500 focus:ring-0 bg-slate-800" />
+                <span class="text-xs text-slate-200 leading-snug">Verify SQLite WAL mode indexing</span>
+              </label>
+              <label class="flex items-start space-x-2.5 bg-[#131E35] p-2.5 rounded-lg cursor-pointer">
+                <input type="checkbox" class="mt-0.5 rounded border-slate-600 text-teal-500 focus:ring-0 bg-slate-800" />
+                <span class="text-xs text-slate-200 leading-snug">Test 21-day auto-cleanup with expired timestamps</span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    let currentDateOffset = 0;
+    let isRecording = false;
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let isPlayingAudio = false;
+    let audioInterval = null;
+
+    const sampleEntries = {
+      entry1: {
+        category: 'TASK',
+        title: 'Architectural Review for VocaLog',
+        date: 'Thursday, October 22, 2026 • 2:45 PM',
+        cleaned: 'I finished reviewing the local SQLite WAL configuration. We need to make sure the audio files automatically prune after 21 days while keeping transcripts permanent.',
+        raw: 'Um, so today, uh, I basically finished reviewing the local SQLite WAL configuration, you know? Like we need to make sure the audio files automatically prune after 21 days while keeping transcripts permanent.',
+        actions: ['Verify SQLite WAL mode indexing', 'Test 21-day auto-cleanup with expired timestamps']
+      },
+      entry2: {
+        category: 'REFLECTION',
+        title: 'Morning Clarity & Offline Freedom',
+        date: 'Thursday, October 22, 2026 • 11:15 AM',
+        cleaned: 'I felt really grateful for taking an early morning walk without notifications. Realized that building a zero-cloud tool gives genuine peace of mind.',
+        raw: 'So, er, I felt, you know, really grateful for taking an early morning walk without notifications. I mean, realized that building a zero-cloud tool gives genuine peace of mind.',
+        actions: []
+      },
+      entry3: {
+        category: 'EVENT',
+        title: 'Sprint Kickoff Tomorrow at 10am',
+        date: 'Thursday, October 22, 2026 • 8:30 AM',
+        cleaned: 'Meeting with the product engineering team tomorrow at 10am to finalize the offline voice journal launch roadmap.',
+        raw: 'Meeting with the product engineering team, like, tomorrow at 10am to basically finalize the offline voice journal launch roadmap.',
+        actions: ['Prepare roadmap summary slides']
+      }
+    };
+
+    let activeModalEntry = sampleEntries.entry1;
+
+    // Date Navigation
+    const prevBtn = document.getElementById('prevDayBtn');
+    const nextBtn = document.getElementById('nextDayBtn');
+    const jumpBtn = document.getElementById('jumpTodayBtn');
+    const dateLabel = document.getElementById('dateLabel');
+    const feedList = document.getElementById('feedList');
+    const statsBar = document.getElementById('statsBar');
+    const emptyState = document.getElementById('emptyState');
+
+    function updateDateView() {
+      if (currentDateOffset === 0) {
+        dateLabel.textContent = 'Today — Thursday, Oct 22';
+        jumpBtn.style.display = 'none';
+        feedList.style.display = 'block';
+        statsBar.style.display = 'flex';
+        emptyState.style.display = 'none';
+      } else if (currentDateOffset === -1) {
+        dateLabel.textContent = 'Yesterday — Wednesday, Oct 21';
+        jumpBtn.style.display = 'flex';
+        feedList.style.display = 'none';
+        statsBar.style.display = 'none';
+        emptyState.style.display = 'flex';
+      } else if (currentDateOffset === 1) {
+        dateLabel.textContent = 'Tomorrow — Friday, Oct 23';
+        jumpBtn.style.display = 'flex';
+        feedList.style.display = 'none';
+        statsBar.style.display = 'none';
+        emptyState.style.display = 'flex';
+      } else {
+        const d = new Date(2026, 9, 22 + currentDateOffset);
+        dateLabel.textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+        jumpBtn.style.display = 'flex';
+        feedList.style.display = 'none';
+        statsBar.style.display = 'none';
+        emptyState.style.display = 'flex';
+      }
+    }
+
+    prevBtn.onclick = () => { currentDateOffset--; updateDateView(); };
+    nextBtn.onclick = () => { currentDateOffset++; updateDateView(); };
+    jumpBtn.onclick = () => { currentDateOffset = 0; updateDateView(); };
+
+    // Record FAB Interaction
+    const mainRecordBtn = document.getElementById('mainRecordBtn');
+    const micIcon = document.getElementById('micIcon');
+    const stopIcon = document.getElementById('stopIcon');
+    const pulseRing = document.getElementById('pulseRing');
+    const recordingTimerPill = document.getElementById('recordingTimerPill');
+    const recordingTimerText = document.getElementById('recordingTimerText');
+    const cancelRecordBtn = document.getElementById('cancelRecordBtn');
+    const balancePlaceholder = document.getElementById('balancePlaceholder');
+    const processingPill = document.getElementById('processingPill');
+
+    function toggleRecording() {
+      if (!isRecording) {
+        // Start Recording
+        isRecording = true;
+        timerSeconds = 0;
+        recordingTimerText.textContent = '0:00';
+        recordingTimerPill.style.display = 'flex';
+        cancelRecordBtn.style.display = 'flex';
+        balancePlaceholder.style.display = 'block';
+        pulseRing.style.display = 'block';
+        micIcon.style.display = 'none';
+        stopIcon.style.display = 'block';
+        mainRecordBtn.classList.remove('bg-[#2DD4BF]', 'hover:bg-[#26c4b0]');
+        mainRecordBtn.classList.add('bg-rose-500', 'hover:bg-rose-600');
+
+        timerInterval = setInterval(() => {
+          timerSeconds++;
+          const mins = Math.floor(timerSeconds / 60);
+          const secs = timerSeconds % 60;
+          recordingTimerText.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }, 1000);
+      } else {
+        // Stop & Process
+        isRecording = false;
+        clearInterval(timerInterval);
+        recordingTimerPill.style.display = 'none';
+        cancelRecordBtn.style.display = 'none';
+        balancePlaceholder.style.display = 'none';
+        pulseRing.style.display = 'none';
+        micIcon.style.display = 'block';
+        stopIcon.style.display = 'none';
+        mainRecordBtn.classList.add('bg-[#2DD4BF]', 'hover:bg-[#26c4b0]');
+        mainRecordBtn.classList.remove('bg-rose-500', 'hover:bg-rose-600');
+
+        // Show On-Device Transcribing indicator
+        processingPill.style.display = 'flex';
+        setTimeout(() => {
+          processingPill.style.display = 'none';
+          prependNewEntry();
+        }, 1200);
+      }
+    }
+
+    function cancelActiveRecording() {
+      isRecording = false;
+      clearInterval(timerInterval);
+      recordingTimerPill.style.display = 'none';
+      cancelRecordBtn.style.display = 'none';
+      balancePlaceholder.style.display = 'none';
+      pulseRing.style.display = 'none';
+      micIcon.style.display = 'block';
+      stopIcon.style.display = 'none';
+      mainRecordBtn.classList.add('bg-[#2DD4BF]', 'hover:bg-[#26c4b0]');
+      mainRecordBtn.classList.remove('bg-rose-500', 'hover:bg-rose-600');
+    }
+
+    function prependNewEntry() {
+      const newCard = document.createElement('article');
+      newCard.className = 'bg-[#1E293B] border border-teal-500/60 rounded-2xl p-4 cursor-pointer active:scale-[0.99] transition shadow-lg shadow-teal-500/10 mb-3';
+      newCard.onclick = () => openDetailModal('entry1');
+      newCard.innerHTML = `
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center space-x-2">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-teal-500/15 text-[#2DD4BF] border border-teal-500/20">TASK</span>
+            <span class="text-xs text-[#2DD4BF] font-semibold">Just now</span>
+            <span class="bg-[#131E35] px-1.5 py-0.5 rounded text-[11px] font-mono text-slate-300">0:14</span>
+          </div>
+          <button class="text-slate-500 hover:text-rose-400 p-1" onclick="event.stopPropagation(); deleteCard(this);">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </button>
+        </div>
+        <h3 class="text-[16px] font-bold text-white leading-snug mb-1">New Voice Reflection</h3>
+        <p class="text-sm text-slate-300 line-clamp-2 leading-relaxed mb-3">
+          On-device Whisper transcription complete with zero cloud latency. Action items extracted automatically.
+        </p>
+        <div class="flex items-center justify-between pt-2.5 border-t border-slate-800 text-xs">
+          <div class="flex items-center space-x-1.5 px-2 py-0.5 bg-[#131E35] rounded-full text-slate-300 font-medium">
+            <svg class="w-3.5 h-3.5 text-[#2DD4BF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>1 Action Item</span>
+          </div>
+          <div class="flex items-center space-x-1 text-[#2DD4BF] font-medium text-[11px]">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+            <span>21d Audio</span>
+          </div>
+        </div>
+      `;
+      feedList.prepend(newCard);
+      document.getElementById('statsNoteCount').textContent = '4 entries • 2m 59s recorded';
+    }
+
+    function deleteCard(btn) {
+      const card = btn.closest('article');
+      card.remove();
+    }
+
+    // Detail Modal Functions
+    const modal = document.getElementById('detailModal');
+    const modalCategoryBadge = document.getElementById('modalCategoryBadge');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDate = document.getElementById('modalDate');
+    const modalBodyText = document.getElementById('modalBodyText');
+    const modalActionSection = document.getElementById('modalActionSection');
+    const modalActionList = document.getElementById('modalActionList');
+    const tabCleaned = document.getElementById('tabCleaned');
+    const tabRaw = document.getElementById('tabRaw');
+
+    function openDetailModal(entryId) {
+      activeModalEntry = sampleEntries[entryId] || sampleEntries.entry1;
+      modalCategoryBadge.textContent = activeModalEntry.category;
+      modalTitle.textContent = activeModalEntry.title;
+      modalDate.textContent = activeModalEntry.date;
+      modalBodyText.textContent = activeModalEntry.cleaned;
+
+      switchTab('cleaned');
+
+      if (activeModalEntry.actions && activeModalEntry.actions.length > 0) {
+        modalActionSection.style.display = 'block';
+        modalActionList.innerHTML = activeModalEntry.actions.map(action => `
+          <label class="flex items-start space-x-2.5 bg-[#131E35] p-2.5 rounded-lg cursor-pointer">
+            <input type="checkbox" class="mt-0.5 rounded border-slate-600 text-teal-500 focus:ring-0 bg-slate-800" />
+            <span class="text-xs text-slate-200 leading-snug">${action}</span>
+          </label>
+        `).join('');
+      } else {
+        modalActionSection.style.display = 'none';
+      }
+
+      modal.style.display = 'flex';
+    }
+
+    function closeDetailModal() {
+      modal.style.display = 'none';
+      stopAudioPlayback();
+    }
+
+    function switchTab(tab) {
+      if (tab === 'cleaned') {
+        tabCleaned.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-[#2DD4BF] bg-[#1E293B] shadow-sm transition';
+        tabRaw.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition';
+        modalBodyText.textContent = activeModalEntry.cleaned;
+      } else {
+        tabRaw.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-[#2DD4BF] bg-[#1E293B] shadow-sm transition';
+        tabCleaned.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition';
+        modalBodyText.textContent = activeModalEntry.raw;
+      }
+    }
+
+    // Audio Playback Simulator
+    const playIcon = document.getElementById('playIcon');
+    const pauseIcon = document.getElementById('pauseIcon');
+    const audioProgress = document.getElementById('audioProgress');
+    let audioPct = 0;
+
+    function toggleAudioPlayback() {
+      if (!isPlayingAudio) {
+        isPlayingAudio = true;
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        audioInterval = setInterval(() => {
+          audioPct += 4;
+          audioProgress.style.width = audioPct + '%';
+          if (audioPct >= 100) {
+            stopAudioPlayback();
+          }
+        }, 150);
+      } else {
+        stopAudioPlayback();
+      }
+    }
+
+    function stopAudioPlayback() {
+      isPlayingAudio = false;
+      clearInterval(audioInterval);
+      audioPct = 0;
+      audioProgress.style.width = '0%';
+      playIcon.style.display = 'block';
+      pauseIcon.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
