@@ -122,3 +122,4 @@ describe('StorageCleanupService.runAutoCleanup execution', () => {
     expect(result.purgedFilesCount).toBe(1);
   });
 });
+
