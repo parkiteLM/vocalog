@@ -78,3 +78,4 @@ export function rowToEntry(row: JournalEntryRow): JournalEntry {
     isFormatted: row.is_formatted === 1,
   };
 }
+

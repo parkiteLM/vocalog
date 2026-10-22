@@ -64,3 +64,4 @@ describe('JournalEntry Model & Row Mapping', () => {
     expect(entry.audioFilePath).toBeNull();
   });
 });
+
