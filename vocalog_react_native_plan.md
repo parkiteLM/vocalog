@@ -76,7 +76,7 @@ flowchart TD
   - Scans recordings directory on app launch and post-recording.
   - Safely deletes `.m4a` files older than **21 days** (configurable via parameter for future Pro tier).
   - Sweeps orphaned files with no DB record.
-* [x] Write unit tests for data layer and the 21-day retention calculation (6/6 tests passing in Jest).
+* [x] Write unit tests for audio recorder, cleanup execution, and data layer (18/18 tests passing across 4 suites in Jest).
 
 ### **Phase 2: 100% On-Device Offline Whisper Speech-to-Text Engine**
 > **Goal:** Embed local quantized model weights and run native C++ speech recognition without internet access.
