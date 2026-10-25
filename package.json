@@ -37,6 +37,7 @@
     "build:apk": "cd android && JAVA_HOME=$HOME/.jdks/jdk-21.0.12.1+1 ANDROID_HOME=$HOME/Android/Sdk ANDROID_SDK_ROOT=$HOME/Android/Sdk ./gradlew assembleRelease",
     "build:apk:debug": "cd android && JAVA_HOME=$HOME/.jdks/jdk-21.0.12.1+1 ANDROID_HOME=$HOME/Android/Sdk ANDROID_SDK_ROOT=$HOME/Android/Sdk ./gradlew assembleDebug",
     "serve:apk": "python3 -m http.server 8080 --directory android/app/build/outputs/apk/release",
+    "postinstall": "node -e \"const fs=require('fs'),p='node_modules/expo-av/expo-module.config.json';if(fs.existsSync(p)){const c=JSON.parse(fs.readFileSync(p,'utf8'));delete c.android.publication;fs.writeFileSync(p,JSON.stringify(c,null,2));}\"",
     "test": "jest"
   },
   "private": true
