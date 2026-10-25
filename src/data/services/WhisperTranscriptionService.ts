@@ -1,5 +1,6 @@
 import { initWhisper, WhisperContext } from 'whisper.rn';
 import * as FileSystem from 'expo-file-system/legacy';
+import { audioConverterService } from './AudioConverterService';
 
 export interface TranscriptionProgress {
   progress: number;
@@ -110,20 +111,40 @@ export class WhisperTranscriptionService {
       throw new Error(`Audio file not found at path: ${audioFilePath}`);
     }
 
-    const context = await this.getContext(options?.modelPath);
+    let wavPathToTranscribe = audioFilePath;
+    let isTemporaryWav = false;
 
-    const { promise } = context.transcribe(audioFilePath, {
-      language: 'en',
-      maxLen: 0,
-      onProgress: (progress: number) => {
-        if (options?.onProgress) {
-          options.onProgress(progress);
+    // whisper.rn JSI requires 16-bit PCM WAV. Convert compressed m4a to WAV on Android.
+    if (!audioFilePath.toLowerCase().endsWith('.wav')) {
+      const tempWav = `${FileSystem.cacheDirectory}whisper_temp_${Date.now()}.wav`;
+      wavPathToTranscribe = await audioConverterService.convertToWav(audioFilePath, tempWav);
+      isTemporaryWav = true;
+    }
+
+    try {
+      const context = await this.getContext(options?.modelPath);
+
+      const { promise } = context.transcribe(wavPathToTranscribe, {
+        language: 'en',
+        maxLen: 0,
+        onProgress: (progress: number) => {
+          if (options?.onProgress) {
+            options.onProgress(progress);
+          }
+        },
+      });
+
+      const result = await promise;
+      return result.result?.trim() ?? '';
+    } finally {
+      if (isTemporaryWav) {
+        try {
+          await FileSystem.deleteAsync(wavPathToTranscribe, { idempotent: true });
+        } catch {
+          // Ignore transient cache cleanup errors
         }
-      },
-    });
-
-    const result = await promise;
-    return result.result?.trim() ?? '';
+      }
+    }
   }
 
   /**

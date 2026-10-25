@@ -17,10 +17,13 @@ jest.mock('whisper.rn', () => ({
 }));
 
 const mockGetInfoAsync = jest.fn();
+const mockDeleteAsync = jest.fn();
 
 jest.mock('expo-file-system/legacy', () => ({
   documentDirectory: 'file:///mock/documents/',
+  cacheDirectory: 'file:///mock/cache/',
   getInfoAsync: (uri: string) => mockGetInfoAsync(uri),
+  deleteAsync: (uri: string, opts?: any) => mockDeleteAsync(uri, opts),
 }));
 
 import { whisperTranscriptionService } from '../src/data/services/WhisperTranscriptionService';
@@ -52,8 +55,8 @@ describe('WhisperTranscriptionService (100% On-Device Speech-to-Text)', () => {
     expect(missing).toBe(false);
   });
 
-  it('initializes whisper context and transcribes audio file', async () => {
-    const audioPath = 'file:///mock/documents/recordings/vocalog_123.m4a';
+  it('transcribes WAV audio file directly', async () => {
+    const audioPath = 'file:///mock/documents/recordings/vocalog_123.wav';
 
     const transcript = await whisperTranscriptionService.transcribeAudio(audioPath);
 
@@ -68,6 +71,26 @@ describe('WhisperTranscriptionService (100% On-Device Speech-to-Text)', () => {
       expect.objectContaining({
         language: 'en',
       })
+    );
+
+    expect(transcript).toBe('Hello world from local Whisper');
+  });
+
+  it('converts compressed m4a audio to WAV and cleans up temporary file', async () => {
+    const audioPath = 'file:///mock/documents/recordings/vocalog_123.m4a';
+
+    const transcript = await whisperTranscriptionService.transcribeAudio(audioPath);
+
+    expect(mockTranscribe).toHaveBeenCalledWith(
+      expect.stringMatching(/whisper_temp_.*\.wav$/),
+      expect.objectContaining({
+        language: 'en',
+      })
+    );
+
+    expect(mockDeleteAsync).toHaveBeenCalledWith(
+      expect.stringMatching(/whisper_temp_.*\.wav$/),
+      { idempotent: true }
     );
 
     expect(transcript).toBe('Hello world from local Whisper');
