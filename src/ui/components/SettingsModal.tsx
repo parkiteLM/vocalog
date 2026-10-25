@@ -9,13 +9,14 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { X, ShieldCheck, FileText, Download, Sparkles, Clock, Check } from 'lucide-react-native';
+import { X, ShieldCheck, FileText, Download, Sparkles, Clock, Check, HelpCircle, ChevronRight } from 'lucide-react-native';
 import { Colors, Spacing, BorderRadius } from '../../core/theme';
 import { databaseService } from '../../data/services/DatabaseService';
 import { dataExportService } from '../../data/services/DataExportService';
 import { subscriptionService } from '../../data/services/SubscriptionService';
 import { useJournalStore } from '../../state/useJournalStore';
 import { PaywallModal } from './PaywallModal';
+import { HelpGuideModal } from './HelpGuideModal';
 
 interface SettingsModalProps {
   visible: boolean;
@@ -27,6 +28,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ visible, onClose }
   const [retentionDays, setRetentionDays] = useState<number>(21);
   const [isPro, setIsPro] = useState<boolean>(false);
   const [showPaywall, setShowPaywall] = useState<boolean>(false);
+  const [showHelpGuide, setShowHelpGuide] = useState<boolean>(false);
   const [isExporting, setIsExporting] = useState<boolean>(false);
 
   useEffect(() => {
@@ -179,6 +181,27 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ visible, onClose }
                 </View>
               </View>
 
+              {/* Help & Documentation Section */}
+              <View style={styles.section}>
+                <View style={styles.sectionHeaderRow}>
+                  <HelpCircle size={16} color={Colors.primary} style={{ marginRight: 6 }} />
+                  <Text style={styles.sectionTitle}>HELP & USER GUIDE</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.helpButtonRow}
+                  activeOpacity={0.7}
+                  onPress={() => setShowHelpGuide(true)}
+                >
+                  <View style={styles.helpButtonLeft}>
+                    <Text style={styles.helpButtonTitle}>Voice Tags & How-To Guide</Text>
+                    <Text style={styles.helpButtonSubtitle}>
+                      Learn how VocaLog cleans speech and tags Tasks, Events, Reflections, and Notes.
+                    </Text>
+                  </View>
+                  <ChevronRight size={18} color={Colors.textMuted} />
+                </TouchableOpacity>
+              </View>
+
               {/* Data Ownership & Export Section */}
               <View style={styles.section}>
                 <View style={styles.sectionHeaderRow}>
@@ -250,6 +273,12 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ visible, onClose }
           setIsPro(true);
           setShowPaywall(false);
         }}
+      />
+
+      {/* Embedded Help Guide Modal */}
+      <HelpGuideModal
+        visible={showHelpGuide}
+        onClose={() => setShowHelpGuide(false)}
       />
     </>
   );
@@ -454,5 +483,30 @@ const styles = StyleSheet.create({
     color: Colors.textMuted,
     fontSize: 11,
     textAlign: 'center',
+  },
+  helpButtonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: Colors.surfaceSubtle,
+    borderRadius: BorderRadius.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    padding: Spacing.md,
+  },
+  helpButtonLeft: {
+    flex: 1,
+    paddingRight: Spacing.sm,
+  },
+  helpButtonTitle: {
+    color: Colors.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+    marginBottom: 2,
+  },
+  helpButtonSubtitle: {
+    color: Colors.textSecondary,
+    fontSize: 12,
+    lineHeight: 16,
   },
 });
