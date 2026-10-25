@@ -27,3 +27,7 @@ ios/
 scratch/
 .env
 .env.local
+
+# Large AI binary weights
+assets/models/*.bin
+*.bin

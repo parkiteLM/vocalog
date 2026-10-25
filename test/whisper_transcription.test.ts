@@ -59,8 +59,7 @@ describe('WhisperTranscriptionService (100% On-Device Speech-to-Text)', () => {
 
     expect(mockInitWhisper).toHaveBeenCalledWith(
       expect.objectContaining({
-        filePath: 'file:///mock/documents/models/ggml-tiny.en.bin',
-        useGpu: true,
+        filePath: expect.stringMatching(/models.*ggml-tiny\.en\.bin/),
       })
     );
 

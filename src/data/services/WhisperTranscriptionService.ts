@@ -35,34 +35,59 @@ export class WhisperTranscriptionService {
 
   /**
    * Initializes or reuses the Whisper native C++ context.
+   * Prioritizes bundled offline assets; automatically downloads from HuggingFace if missing.
    */
   async getContext(modelPath?: string): Promise<WhisperContext> {
-    const targetPath = modelPath ?? this.getDefaultModelPath();
-
-    if (this.whisperContext && this.currentModelPath === targetPath) {
+    if (this.whisperContext) {
       return this.whisperContext;
     }
 
     if (this.isInitializing) {
-      // Small backoff wait if already initializing
-      await new Promise((resolve) => setTimeout(resolve, 150));
+      await new Promise((resolve) => setTimeout(resolve, 200));
       if (this.whisperContext) return this.whisperContext;
     }
 
     this.isInitializing = true;
 
     try {
-      if (this.whisperContext) {
-        await this.whisperContext.release();
-        this.whisperContext = null;
+      // 1. Try bundled Android asset first (100% offline, zero-network)
+      if (!modelPath) {
+        try {
+          this.whisperContext = await initWhisper({
+            filePath: 'models/ggml-tiny.en.bin',
+            isBundleAsset: true,
+            useGpu: false,
+          });
+          this.currentModelPath = 'models/ggml-tiny.en.bin';
+          return this.whisperContext;
+        } catch (assetErr) {
+          console.warn('Bundled asset load attempt skipped or failed, trying local storage:', assetErr);
+        }
+      }
+
+      // 2. Check local documents directory
+      const localPath = modelPath ?? this.getDefaultModelPath();
+      const localInfo = await FileSystem.getInfoAsync(localPath);
+
+      if (!localInfo.exists) {
+        // Ensure destination folder exists
+        const dir = this.getModelDirectory();
+        const dirInfo = await FileSystem.getInfoAsync(dir);
+        if (!dirInfo.exists) {
+          await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
+        }
+
+        // Download GGML tiny.en weights from official HuggingFace repo
+        const downloadUrl = 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.en.bin';
+        await FileSystem.downloadAsync(downloadUrl, localPath);
       }
 
       this.whisperContext = await initWhisper({
-        filePath: targetPath,
-        useGpu: true, // Use Metal on iOS if available
+        filePath: localPath,
+        useGpu: false,
       });
 
-      this.currentModelPath = targetPath;
+      this.currentModelPath = localPath;
       return this.whisperContext;
     } finally {
       this.isInitializing = false;
