@@ -34,8 +34,9 @@
     "web": "expo start --web",
     "export:test:android": "EXPO_PUBLIC_UNLOCK_ALL_FEATURES=true EXPO_NO_TELEMETRY=1 expo export --platform android",
     "export:test:ios": "EXPO_PUBLIC_UNLOCK_ALL_FEATURES=true EXPO_NO_TELEMETRY=1 expo export --platform ios",
-    "build:apk": "cd android && JAVA_HOME=$HOME/.jdks/jdk-21.0.12.1+1 ANDROID_HOME=$HOME/Android/Sdk ANDROID_SDK_ROOT=$HOME/Android/Sdk ./gradlew assembleDebug",
-    "serve:apk": "python3 -m http.server 8080 --directory android/app/build/outputs/apk/debug",
+    "build:apk": "cd android && JAVA_HOME=$HOME/.jdks/jdk-21.0.12.1+1 ANDROID_HOME=$HOME/Android/Sdk ANDROID_SDK_ROOT=$HOME/Android/Sdk ./gradlew assembleRelease",
+    "build:apk:debug": "cd android && JAVA_HOME=$HOME/.jdks/jdk-21.0.12.1+1 ANDROID_HOME=$HOME/Android/Sdk ANDROID_SDK_ROOT=$HOME/Android/Sdk ./gradlew assembleDebug",
+    "serve:apk": "python3 -m http.server 8080 --directory android/app/build/outputs/apk/release",
     "test": "jest"
   },
   "private": true
