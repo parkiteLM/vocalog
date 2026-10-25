@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   StatusBar,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { ShieldCheck, Mic, Settings as SettingsIcon } from 'lucide-react-native';
 import { Colors, Spacing, BorderRadius } from '../../core/theme';
@@ -153,6 +154,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.background,
+    paddingTop: Platform.OS === 'android' ? Math.max(StatusBar.currentHeight ?? 0, 24) : 0,
   },
   appBar: {
     flexDirection: 'row',

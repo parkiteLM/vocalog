@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, Platform } from 'react-native';
 
 interface Props {
   children: ReactNode;
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0F172A',
     padding: 16,
+    paddingTop: Platform.OS === 'android' ? Math.max(StatusBar.currentHeight ?? 0, 24) + 16 : 16,
   },
   header: {
     paddingVertical: 16,

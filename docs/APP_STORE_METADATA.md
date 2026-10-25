@@ -139,3 +139,4 @@ Key verification details for testing:
    - Say: "I felt really peaceful walking through the park this morning" -> automatically classified as Reflection.
 5. In-app purchases for VocaLog Pro can be tested with standard StoreKit / Google Play Billing sandbox accounts.
 ```
+

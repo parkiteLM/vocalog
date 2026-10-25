@@ -86,3 +86,4 @@ Beyond categorization, VocaLog automatically applies zero-latency NLP transforma
 2. **Punctuation & Grammar Correction:** Restores clean capitalization, strips trailing commas, and formats sentences cleanly.
 3. **Executive Summary Synthesis:** Generates a concise single-sentence summary for rapid feed scanning.
 4. **Action Item Extraction:** Isolates actionable checklist items from long rambles so you never lose a to-do.
+
