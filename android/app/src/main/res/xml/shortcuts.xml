@@ -1,0 +1,28 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="quick_record"
+        android:enabled="true"
+        android:icon="@drawable/ic_quick_record"
+        android:shortcutShortLabel="@string/shortcut_record_short"
+        android:shortcutLongLabel="@string/shortcut_record_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="vocalog://record"
+            android:targetPackage="com.vocalog.app"
+            android:targetClass="com.vocalog.app.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="today_feed"
+        android:enabled="true"
+        android:icon="@drawable/ic_today_feed"
+        android:shortcutShortLabel="@string/shortcut_today_short"
+        android:shortcutLongLabel="@string/shortcut_today_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="vocalog://today"
+            android:targetPackage="com.vocalog.app"
+            android:targetClass="com.vocalog.app.MainActivity" />
+    </shortcut>
+</shortcuts>
+

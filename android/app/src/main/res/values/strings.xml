@@ -1,0 +1,17 @@
+<resources>
+  <string name="app_name">VocaLog</string>
+  
+  <!-- Shortcuts -->
+  <string name="shortcut_record_short">Record</string>
+  <string name="shortcut_record_long">Record Voice Note</string>
+  <string name="shortcut_today_short">Today</string>
+  <string name="shortcut_today_long">Today\'s Journal</string>
+
+  <!-- Quick Settings Tile -->
+  <string name="tile_record_label">Record Note</string>
+  <string name="tile_record_description">Start recording a VocaLog voice note</string>
+
+  <!-- Widget -->
+  <string name="widget_record_label">VocaLog Quick Record</string>
+  <string name="widget_record_description">Tap to quickly record a voice note</string>
+</resources>
