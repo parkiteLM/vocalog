@@ -126,6 +126,16 @@ flowchart TD
 * [x] Unit tests for deep linking, data exports, and subscription management (75/75 tests passing across 11 test suites in Jest).
 * [x] Complete Metro Android bundling check verified (`EXPO_NO_TELEMETRY=1 npx expo export --platform android`).
 
+### **Phase 5: Native Android/iOS Quick-Access Widgets, Lock Screen Tile & App Shortcuts** (Completed)
+> **Goal:** Provide seamless 1-tap recording directly from the lock screen, notification shade, and desktop widgets across mobile platforms.
+
+* [x] Implement Android Quick Settings Tile (`QuickRecordTileService.kt`): Pull down from lock screen and tap "Record Note" to trigger instant audio capture.
+* [x] Implement Android 1-Tap Home Screen Widget (`QuickRecordWidgetProvider.kt` & `widget_quick_record.xml`): 1x1 circular widget with dark slate and neon teal styling.
+* [x] Configure Android App Shortcuts (`shortcuts.xml`): Static shortcuts for Record (`vocalog://record`) and Today's Feed (`vocalog://today`), assignable as lock screen corner shortcuts on Android 14/15.
+* [x] Add dynamic Safe Area status bar insets (`DailyFeedScreen.tsx`) for Android edge-to-edge / hole-punch screens.
+* [x] Create comprehensive setup guides for users: `docs/WIDGETS_AND_SHORTCUTS_GUIDE.md` (Android & iOS) and tabbed in-app `HelpGuideModal.tsx`.
+* [x] Update App Store and Google Play metadata (`docs/APP_STORE_METADATA.md`) with widget and lock screen capabilities.
+
 ---
 
 ## 4. Financial Breakdown & Unit Economics

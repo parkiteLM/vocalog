@@ -46,8 +46,12 @@ Your journal belongs to you. Export your entire history at any time with one tap
 - Export as Markdown for Obsidian, Notion, Bear, and Logseq.
 - Export as standard JSON for custom backups and scripts.
 
-ONE-TAP WIDGET & QUICK LOGGING
-Capture fleeting thoughts instantly from your Home Screen with our deep-linked quick-record shortcut.
+ONE-TAP LOCK SCREEN WIDGETS & ACTION BUTTON
+Capture fleeting thoughts instantly without opening the app:
+- iOS 16+ Lock Screen Widget: Tap the mic widget directly beneath your lock screen clock.
+- iOS 18 Lock Screen Control: Replace your lock screen flashlight or camera button with instant voice capture.
+- Action Button Support: Press and hold the Action Button on iPhone 15 Pro / 16 to record thoughts hands-free.
+- Interactive Home Screen Widgets: 1-tap quick recording from anywhere.
 
 VOCALOG PRO FEATURES
 Unlock unlimited customization with VocaLog Pro:
@@ -96,6 +100,13 @@ VocaLog cleans conversational pauses like "um", "uh", "er", "you know", and "lik
 
 SMART 21-DAY STORAGE CLEANUP
 Voice files can quickly clutter your phone's memory. VocaLog keeps the high-fidelity audio recording for 21 days for playback and then automatically cleans the audio file while keeping your text transcripts, titles, summaries, and action items stored permanently in your local database.
+
+LOCK SCREEN TILE, HOME WIDGET & INSTANT SHORTCUTS
+Never let a great idea slip away:
+- Quick Settings Pull-Down Tile: Swipe down on your lock screen and tap "Record Note" to start logging thoughts without unlocking into your app drawer.
+- 1-Tap Home Screen Widget: Sleek circular desktop widget for one-tap voice capture.
+- Lock Screen Corner Shortcut: Assign VocaLog to your bottom lock screen corner on Android 14/15.
+- App Icon Quick Actions: Long-press the VocaLog icon to jump directly to Record or Today's Feed.
 
 COMPLETE DATA FREEDOM
 Export your journal entries anytime to Markdown (compatible with Obsidian, Notion, and Logseq) or structured JSON. No lock-in, ever.
