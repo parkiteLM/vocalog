@@ -122,3 +122,4 @@ Both Android and iOS widgets and shortcuts interact directly with VocaLog via st
 | **`vocalog://record`** | Immediately opens VocaLog and triggers microphone recording. |
 | **`vocalog://today`** | Navigates to today's date in the Daily Feed. |
 | **`vocalog://settings`** | Opens the Settings & Privacy modal. |
+
