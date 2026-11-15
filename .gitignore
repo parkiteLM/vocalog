@@ -6,6 +6,10 @@
 .idea/
 .vscode/
 
+# Keystores & sensitive credentials
+*.keystore
+*.jks
+
 # Node & JavaScript dependencies
 node_modules/
 npm-debug.log*
