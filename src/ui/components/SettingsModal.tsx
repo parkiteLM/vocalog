@@ -138,7 +138,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ visible, onClose }
                     <Text style={styles.proBannerSubtitle}>
                       {isPro
                         ? 'Unlimited custom audio retention unlocked'
-                        : '$4.99/mo • Custom retention & priority offline AI'}
+                        : 'From $3.49/mo or $35/yr • All future updates & features'}
                     </Text>
                   </View>
                 </View>

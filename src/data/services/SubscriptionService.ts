@@ -1,7 +1,10 @@
 import Purchases, { CustomerInfo, PurchasesPackage } from 'react-native-purchases';
 
 export const PRO_ENTITLEMENT = 'pro';
-export const PRO_MONTHLY_PRICE = '$4.99 / month';
+export const PRO_MONTHLY_PRICE = '$3.49 / month';
+export const PRO_ANNUAL_PRICE = '$35.00 / year';
+
+export type ProPlan = 'monthly' | 'annual';
 
 export class SubscriptionService {
   private isConfigured = false;
@@ -42,7 +45,7 @@ export class SubscriptionService {
   }
 
   /**
-   * Retrieves the $4.99/mo monthly subscription package.
+   * Retrieves the $3.49/mo monthly subscription package.
    */
   async getMonthlyPackage(): Promise<PurchasesPackage | null> {
     try {
@@ -55,9 +58,23 @@ export class SubscriptionService {
   }
 
   /**
-   * Executes the in-app purchase flow for the Pro subscription.
+   * Retrieves the $35/yr annual subscription package.
    */
-  async purchasePro(): Promise<boolean> {
+  async getAnnualPackage(): Promise<PurchasesPackage | null> {
+    try {
+      if (!this.isConfigured) return null;
+      const offerings = await Purchases.getOfferings();
+      return offerings.current?.annual ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Executes the in-app purchase flow for the selected Pro subscription plan.
+   * @param plan 'monthly' ($3.49/mo) or 'annual' ($35/yr)
+   */
+  async purchasePro(plan: ProPlan = 'annual'): Promise<boolean> {
     try {
       if (!this.isConfigured) {
         // In local mock mode, simulate successful purchase
@@ -65,12 +82,16 @@ export class SubscriptionService {
         return true;
       }
 
-      const monthlyPkg = await this.getMonthlyPackage();
-      if (!monthlyPkg) {
+      const pkg =
+        plan === 'annual'
+          ? (await this.getAnnualPackage()) ?? (await this.getMonthlyPackage())
+          : (await this.getMonthlyPackage()) ?? (await this.getAnnualPackage());
+
+      if (!pkg) {
         throw new Error('No active subscription offering found.');
       }
 
-      const { customerInfo } = await Purchases.purchasePackage(monthlyPkg);
+      const { customerInfo } = await Purchases.purchasePackage(pkg);
       return customerInfo.entitlements.active[PRO_ENTITLEMENT] !== undefined;
     } catch (error) {
       console.warn('Purchase error:', error);

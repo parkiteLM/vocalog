@@ -57,9 +57,14 @@ VOCALOG PRO FEATURES
 Unlock unlimited customization with VocaLog Pro:
 - Custom audio retention windows (7 days, 14 days, 60 days, or Keep Forever).
 - Priority on-device processing.
-- Advanced export formats.
+- Advanced export formats and daily digest automations.
+- Continuous feature access: Active subscribers automatically receive all future app updates, new AI speech models, and upcoming features.
 
-Subscription terms: Payment is charged to your Apple ID account upon confirmation of purchase. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current billing cycle. Manage your subscription in your App Store Account Settings.
+Flexible subscription options:
+- Monthly Membership: $3.49 / month (includes 3-day free trial).
+- Annual Special: $35.00 / year (~$2.92 / month, ongoing continuous rate).
+
+Subscription terms: Payment is charged to your Apple ID account upon confirmation of purchase. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current billing cycle. Active subscribers receive all continuous updates and new features. Manage your subscription anytime in your App Store Account Settings.
 
 Privacy Policy: 100% on-device local storage. No data collected.
 Terms of Use: https://vocalog.app/terms
@@ -113,6 +118,8 @@ Export your journal entries anytime to Markdown (compatible with Obsidian, Notio
 
 VOCALOG PRO
 Upgrade to customize your audio retention schedule (7 days, 14 days, 60 days, or Keep Forever) and support independent, private software development.
+- Continuous Updates: Active subscribers automatically receive all future app updates, new AI speech models, and upcoming features at no additional charge.
+- Plans: $3.49 / month (3-day free trial) or the ongoing annual special of $35.00 / year (~$2.92/mo). Cancel anytime in Google Play.
 ```
 
 ---
@@ -148,6 +155,6 @@ Key verification details for testing:
    - Say: "I need to call Dr. Smith tomorrow at 9 AM" -> automatically classified as Task with extracted action item.
    - Say: "Meeting with client tomorrow at 2 PM" -> automatically classified as Event.
    - Say: "I felt really peaceful walking through the park this morning" -> automatically classified as Reflection.
-5. In-app purchases for VocaLog Pro can be tested with standard StoreKit / Google Play Billing sandbox accounts.
+5. In-app purchases for VocaLog Pro ($3.49/mo or $35/yr annual special) can be tested with standard StoreKit / Google Play Billing sandbox accounts. Both tiers grant full access to custom audio retention and all upcoming features.
 ```
 

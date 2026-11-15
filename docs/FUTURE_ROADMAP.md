@@ -53,13 +53,13 @@ This document captures upcoming features, enhancements, and architectural expans
 
 ---
 
-## 6. Daily Email Digest (Text & Raw Transcript Only)
+## 6. Daily Email Digest (Text & Raw Transcript Only) [Completed in v1.0]
 * **Goal:** Enable users to email a clean summary of their daily messages/notes directly from the app with a single tap.
 * **Constraints & Privacy:** Includes *only* formatted cleaned prose and raw transcript text; absolutely *no* audio files are included or transmitted.
 * **Key Tasks:**
-  - [ ] **Digest Formatter:** Generate structured plain-text / Markdown daily summary containing formatted text, summaries, action checklists, and raw transcripts.
-  - [ ] **Email Integration:** Trigger system native email client via `mailto:` URL scheme with pre-filled subject and body (or scheduled daily digest via background task).
-  - [ ] **UI Entrypoints:** Add "Email Daily Digest" button in the daily feed header and Settings modal.
+  - [x] **Digest Formatter:** Generate structured plain-text / Markdown daily summary containing formatted text, summaries, action checklists, and raw transcripts.
+  - [x] **Email Integration:** Trigger system native email client via `mailto:` URL scheme with pre-filled subject and body.
+  - [x] **UI Entrypoints:** Add "Email Daily Digest" button in the daily feed header and Settings modal.
 
 ---
 

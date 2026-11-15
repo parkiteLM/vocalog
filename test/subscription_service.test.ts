@@ -19,6 +19,7 @@ import {
   SubscriptionService,
   PRO_ENTITLEMENT,
   PRO_MONTHLY_PRICE,
+  PRO_ANNUAL_PRICE,
 } from '../src/data/services/SubscriptionService';
 
 describe('SubscriptionService', () => {
@@ -30,9 +31,10 @@ describe('SubscriptionService', () => {
   });
 
   describe('constants', () => {
-    it('defines correct entitlement ID and monthly pricing', () => {
+    it('defines correct entitlement ID, monthly, and annual pricing', () => {
       expect(PRO_ENTITLEMENT).toBe('pro');
-      expect(PRO_MONTHLY_PRICE).toBe('$4.99 / month');
+      expect(PRO_MONTHLY_PRICE).toBe('$3.49 / month');
+      expect(PRO_ANNUAL_PRICE).toBe('$35.00 / year');
     });
   });
 
@@ -91,41 +93,53 @@ describe('SubscriptionService', () => {
     });
   });
 
-  describe('getMonthlyPackage', () => {
+  describe('getMonthlyPackage and getAnnualPackage', () => {
     it('returns null if not configured', async () => {
-      const pkg = await service.getMonthlyPackage();
-      expect(pkg).toBeNull();
+      expect(await service.getMonthlyPackage()).toBeNull();
+      expect(await service.getAnnualPackage()).toBeNull();
     });
 
-    it('returns monthly package from current offering when configured', async () => {
+    it('returns packages from current offering when configured', async () => {
       await service.init('appl_live_key');
-      const mockPackage = { identifier: '$rc_monthly', packageType: 'MONTHLY' };
+      const mockMonthly = { identifier: '$rc_monthly', packageType: 'MONTHLY' };
+      const mockAnnual = { identifier: '$rc_annual', packageType: 'ANNUAL' };
       mockGetOfferings.mockResolvedValueOnce({
         current: {
-          monthly: mockPackage,
+          monthly: mockMonthly,
+          annual: mockAnnual,
         },
       });
 
-      const pkg = await service.getMonthlyPackage();
-      expect(pkg).toEqual(mockPackage);
+      expect(await service.getMonthlyPackage()).toEqual(mockMonthly);
+
+      mockGetOfferings.mockResolvedValueOnce({
+        current: {
+          monthly: mockMonthly,
+          annual: mockAnnual,
+        },
+      });
+      expect(await service.getAnnualPackage()).toEqual(mockAnnual);
     });
   });
 
   describe('purchasePro', () => {
-    it('simulates purchase successfully in unconfigured local mock mode', async () => {
-      const success = await service.purchasePro();
-      expect(success).toBe(true);
+    it('simulates purchase successfully in unconfigured local mock mode for annual and monthly', async () => {
+      const successAnnual = await service.purchasePro('annual');
+      expect(successAnnual).toBe(true);
 
       const isPro = await service.isProSubscriber();
       expect(isPro).toBe(true);
+
+      const successMonthly = await service.purchasePro('monthly');
+      expect(successMonthly).toBe(true);
     });
 
-    it('executes RevenueCat purchase package when configured', async () => {
+    it('executes RevenueCat purchase package when configured for annual plan', async () => {
       await service.init('appl_live_key');
-      const mockPackage = { identifier: '$rc_monthly' };
+      const mockAnnualPackage = { identifier: '$rc_annual' };
       mockGetOfferings.mockResolvedValueOnce({
         current: {
-          monthly: mockPackage,
+          annual: mockAnnualPackage,
         },
       });
       mockPurchasePackage.mockResolvedValueOnce({
@@ -138,9 +152,32 @@ describe('SubscriptionService', () => {
         },
       });
 
-      const success = await service.purchasePro();
+      const success = await service.purchasePro('annual');
       expect(success).toBe(true);
-      expect(mockPurchasePackage).toHaveBeenCalledWith(mockPackage);
+      expect(mockPurchasePackage).toHaveBeenCalledWith(mockAnnualPackage);
+    });
+
+    it('executes RevenueCat purchase package when configured for monthly plan', async () => {
+      await service.init('appl_live_key');
+      const mockMonthlyPackage = { identifier: '$rc_monthly' };
+      mockGetOfferings.mockResolvedValueOnce({
+        current: {
+          monthly: mockMonthlyPackage,
+        },
+      });
+      mockPurchasePackage.mockResolvedValueOnce({
+        customerInfo: {
+          entitlements: {
+            active: {
+              pro: { identifier: 'pro' },
+            },
+          },
+        },
+      });
+
+      const success = await service.purchasePro('monthly');
+      expect(success).toBe(true);
+      expect(mockPurchasePackage).toHaveBeenCalledWith(mockMonthlyPackage);
     });
   });
 

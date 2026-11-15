@@ -37,7 +37,7 @@ flowchart TD
 ### 2.2 Future Pro Tier Expansion
 * **Pro Tier Feature:** **Configurable Audio Retention Settings**.
   - Free/Standard users: Fixed at **21 Days**.
-  - Pro subscribers ($4.99/mo): Unlocks custom retention options (e.g., **7 Days**, **14 Days**, **21 Days**, **60 Days**, **90 Days**, or **Keep Forever / Never Delete**).
+  - Pro subscribers ($3.49/mo or $35/yr annual special): Unlocks custom retention options (e.g., **7 Days**, **14 Days**, **21 Days**, **60 Days**, **90 Days**, or **Keep Forever / Never Delete**) and includes all future updates and features.
 * **Architecture Preparation:** The `StorageCleanupService` and user settings store will be architected with a dynamic `retentionDays` parameter from Day 1 (defaulting to 21), allowing seamless gating behind a Pro entitlement flag in the future.
 
 ---
@@ -122,7 +122,7 @@ flowchart TD
 * [x] Configure custom URL schemes (`vocalog://record`, `vocalog://settings`, `vocalog://today`) and deep link listener in `src/core/services/DeepLinkService.ts`.
 * [x] Implement complete data ownership export engine (`DataExportService.ts`) for JSON archives and Markdown documents with native file sharing (`expo-sharing`).
 * [x] Build `SettingsModal.tsx` with audio retention period configuration (7, 14, 21 Days default, 60 Days, Keep Forever) and data export triggers.
-* [x] Implement `SubscriptionService.ts` and `PaywallModal.tsx` wrapping `react-native-purchases` for **$4.99 / month** Pro subscriptions with 3-day free trial.
+* [x] Implement `SubscriptionService.ts` and `PaywallModal.tsx` wrapping `react-native-purchases` for **$3.49 / month** (with 3-day free trial) and **$35.00 / year ongoing annual special**, including automatic access to all future features and updates.
 * [x] Unit tests for deep linking, data exports, and subscription management (75/75 tests passing across 11 test suites in Jest).
 * [x] Complete Metro Android bundling check verified (`EXPO_NO_TELEMETRY=1 npx expo export --platform android`).
 
@@ -161,5 +161,5 @@ See full details in [`docs/FUTURE_ROADMAP.md`](docs/FUTURE_ROADMAP.md).
 | **AI Text Formatting & Cleaning** | **$0.00** | 100% processed locally via on-device NLP structuring engine |
 | **Cloud Servers & Database** | **$0.00** | Local-first SQLite on device |
 | **Total Variable Cost Per User** | **$0.00** | **Infinite scalability with zero infrastructure costs** |
-| **Subscription Price** | **$4.99 / month** | Straightforward, single-tier pricing |
-| **Net Gross Margin** | **85%** ($4.24/user/mo) | Standard Apple/Google 15% Small Business Program cut |
+| **Subscription Options** | **$3.49 / month** (3-day trial) or **$35.00 / year** (Annual Special) | Includes all continuous future updates & new features |
+| **Net Gross Margin** | **85%** | Standard Apple/Google 15% Small Business Program cut |

@@ -10,7 +10,12 @@ import {
 } from 'react-native';
 import { X, Check, ShieldCheck, Sparkles } from 'lucide-react-native';
 import { Colors, Spacing, BorderRadius } from '../../core/theme';
-import { subscriptionService, PRO_MONTHLY_PRICE } from '../../data/services/SubscriptionService';
+import {
+  subscriptionService,
+  PRO_MONTHLY_PRICE,
+  PRO_ANNUAL_PRICE,
+  ProPlan,
+} from '../../data/services/SubscriptionService';
 
 interface PaywallModalProps {
   visible: boolean;
@@ -24,13 +29,17 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   onSuccess,
 }) => {
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<ProPlan>('annual');
 
   const handleSubscribe = async () => {
     setIsSubscribing(true);
     try {
-      const success = await subscriptionService.purchasePro();
+      const success = await subscriptionService.purchasePro(selectedPlan);
       if (success) {
-        Alert.alert('Welcome to VocaLog Pro!', 'You now have full access to custom audio retention and priority local features.');
+        Alert.alert(
+          'Welcome to VocaLog Pro!',
+          'You now have full access to custom audio retention, all future app updates, and new features.'
+        );
         onSuccess?.();
         onClose();
       }
@@ -130,19 +139,95 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               <View style={styles.featureTextWrapper}>
                 <Text style={styles.featureTitle}>Full Data Export</Text>
                 <Text style={styles.featureDesc}>
-                  One-tap JSON and Markdown archive generation anytime.
+                  One-tap JSON, Markdown archives, and daily email digests anytime.
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.featureItem}>
+              <View style={styles.checkCircle}>
+                <Sparkles size={14} color={Colors.primary} />
+              </View>
+              <View style={styles.featureTextWrapper}>
+                <Text style={styles.featureTitle}>All Future Features & Updates Included</Text>
+                <Text style={styles.featureDesc}>
+                  Active subscribers automatically receive all future app updates, new AI models, and upcoming features at no extra cost.
                 </Text>
               </View>
             </View>
           </View>
 
-          {/* Price Box */}
-          <View style={styles.priceBox}>
-            <View>
-              <Text style={styles.planName}>Monthly Membership</Text>
-              <Text style={styles.trialText}>3-Day Free Trial included</Text>
-            </View>
-            <Text style={styles.price}>{PRO_MONTHLY_PRICE}</Text>
+          {/* Plan Selector */}
+          <View style={styles.plansContainer}>
+            {/* Annual Plan (Special Ongoing Rate) */}
+            <TouchableOpacity
+              style={[
+                styles.planCard,
+                selectedPlan === 'annual' && styles.planCardSelected,
+              ]}
+              onPress={() => setSelectedPlan('annual')}
+              activeOpacity={0.8}
+              accessibilityRole="radio"
+              accessibilityState={{ selected: selectedPlan === 'annual' }}
+              accessibilityLabel={`Annual plan, ${PRO_ANNUAL_PRICE}`}
+            >
+              <View style={styles.planHeader}>
+                <View style={styles.planRadioRow}>
+                  <View
+                    style={[
+                      styles.radioOuter,
+                      selectedPlan === 'annual' && styles.radioOuterSelected,
+                    ]}
+                  >
+                    {selectedPlan === 'annual' && <View style={styles.radioInner} />}
+                  </View>
+                  <View>
+                    <Text style={styles.planName}>Annual Special</Text>
+                    <Text style={styles.planSubtext}>Ongoing continuous rate • Save ~16%</Text>
+                  </View>
+                </View>
+                <View style={styles.badgeBestValue}>
+                  <Text style={styles.badgeBestValueText}>BEST VALUE</Text>
+                </View>
+              </View>
+              <View style={styles.planPriceRow}>
+                <Text style={styles.price}>{PRO_ANNUAL_PRICE}</Text>
+                <Text style={styles.planPriceBreakdown}>~$2.92 / mo</Text>
+              </View>
+            </TouchableOpacity>
+
+            {/* Monthly Plan */}
+            <TouchableOpacity
+              style={[
+                styles.planCard,
+                selectedPlan === 'monthly' && styles.planCardSelected,
+              ]}
+              onPress={() => setSelectedPlan('monthly')}
+              activeOpacity={0.8}
+              accessibilityRole="radio"
+              accessibilityState={{ selected: selectedPlan === 'monthly' }}
+              accessibilityLabel={`Monthly plan, ${PRO_MONTHLY_PRICE}`}
+            >
+              <View style={styles.planHeader}>
+                <View style={styles.planRadioRow}>
+                  <View
+                    style={[
+                      styles.radioOuter,
+                      selectedPlan === 'monthly' && styles.radioOuterSelected,
+                    ]}
+                  >
+                    {selectedPlan === 'monthly' && <View style={styles.radioInner} />}
+                  </View>
+                  <View>
+                    <Text style={styles.planName}>Monthly Membership</Text>
+                    <Text style={styles.trialText}>Includes 3-Day Free Trial</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.planPriceRow}>
+                <Text style={styles.price}>{PRO_MONTHLY_PRICE}</Text>
+              </View>
+            </TouchableOpacity>
           </View>
 
           {/* Subscribe CTA */}
@@ -155,7 +240,11 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
             {isSubscribing ? (
               <ActivityIndicator color={Colors.background} size="small" />
             ) : (
-              <Text style={styles.subscribeBtnText}>Start 3-Day Free Trial</Text>
+              <Text style={styles.subscribeBtnText}>
+                {selectedPlan === 'annual'
+                  ? `Subscribe Now — ${PRO_ANNUAL_PRICE}`
+                  : `Start 3-Day Free Trial (${PRO_MONTHLY_PRICE})`}
+              </Text>
             )}
           </TouchableOpacity>
 
@@ -183,7 +272,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
 
           {/* Legal Footnote */}
           <Text style={styles.legalNotice}>
-            Cancel anytime in App Store / Google Play settings. Subscription renews automatically unless cancelled 24 hours before the end of the trial period.
+            Active subscribers automatically receive all continuous updates and new features. Cancel anytime in App Store / Google Play settings. Subscriptions renew automatically unless cancelled at least 24 hours before renewal.
           </Text>
         </View>
       </View>
@@ -279,31 +368,95 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
   },
-  priceBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  plansContainer: {
+    marginBottom: Spacing.md,
+    gap: Spacing.sm,
+  },
+  planCard: {
     backgroundColor: Colors.surfaceSubtle,
     padding: Spacing.md,
     borderRadius: BorderRadius.md,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: Colors.border,
-    marginBottom: Spacing.md,
+  },
+  planCardSelected: {
+    borderColor: Colors.primary,
+    backgroundColor: 'rgba(45, 212, 191, 0.08)',
+  },
+  planHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 6,
+  },
+  planRadioRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  radioOuter: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    borderWidth: 2,
+    borderColor: Colors.textMuted,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: Spacing.sm,
+  },
+  radioOuterSelected: {
+    borderColor: Colors.primary,
+  },
+  radioInner: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Colors.primary,
   },
   planName: {
     color: Colors.textPrimary,
     fontSize: 14,
     fontWeight: '700',
   },
+  planSubtext: {
+    color: Colors.textSecondary,
+    fontSize: 11,
+    marginTop: 2,
+  },
+  badgeBestValue: {
+    backgroundColor: Colors.primarySubtle,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: BorderRadius.full,
+    borderWidth: 1,
+    borderColor: 'rgba(45, 212, 191, 0.3)',
+  },
+  badgeBestValueText: {
+    color: Colors.primary,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  planPriceRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    paddingLeft: 26,
+  },
+  planPriceBreakdown: {
+    color: Colors.textMuted,
+    fontSize: 12,
+    fontWeight: '600',
+  },
   trialText: {
     color: Colors.primary,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     marginTop: 2,
   },
   price: {
     color: Colors.textPrimary,
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '800',
   },
   subscribeBtn: {
