@@ -138,7 +138,21 @@ flowchart TD
 
 ---
 
-## 4. Financial Breakdown & Unit Economics
+## 4. Future Product Roadmap (Post-Launch)
+See full details in [`docs/FUTURE_ROADMAP.md`](docs/FUTURE_ROADMAP.md).
+
+* **1. Multilingual Speech-to-Text & Global Localization (High Priority):**
+  - Bundle or download multilingual `ggml-tiny.bin` weights (supporting 99+ languages).
+  - Add language selector and auto-detection (`language: 'auto'`) in Settings.
+  - Expand `TextStructuringService.ts` categorization dictionaries and filler-word removal across Spanish, French, German, and other languages.
+* **2. iOS Native WidgetKit Extension:** Swift `accessoryCircular` and iOS 18 `ControlWidget` targets.
+* **3. SQLite Full-Text Search (FTS5):** Instant keyword search across all archived notes and category feed filters.
+* **4. Audio Waveform & Speed Controls:** 1.25x/1.5x/2.0x playback with visual waveform scrubbers.
+* **5. Biometric Lock:** Optional Face Unlock / Fingerprint security via `expo-local-authentication`.
+
+---
+
+## 5. Financial Breakdown & Unit Economics
 
 | Metric | Amount | Details |
 | :--- | :--- | :--- |
