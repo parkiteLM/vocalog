@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — VocaLog: Private Voice Journal</title>
+  <meta name="description" content="Privacy Policy for VocaLog: 100% offline, on-device voice journal. Zero cloud tracking, no audio uploads, completely private.">
+  <style>
+    :root {
+      --bg-dark: #0B0F19;
+      --bg-slate: #0F172A;
+      --surface: #1E293B;
+      --surface-subtle: #273549;
+      --teal-primary: #2DD4BF;
+      --teal-dark: #0D9488;
+      --cyan-accent: #38BDF8;
+      --text-white: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      line-height: 1.65;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--bg-slate);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 28px;
+      margin-bottom: 32px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .logo-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--teal-primary), var(--cyan-accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
+    }
+
+    .logo-badge svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--bg-dark);
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.5px;
+    }
+
+    .tagline {
+      color: var(--teal-primary);
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .highlight-card {
+      background: rgba(45, 212, 191, 0.08);
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 36px;
+    }
+
+    .highlight-card h2 {
+      font-size: 18px;
+      color: var(--teal-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .highlight-card ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .highlight-card li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 8px;
+      color: var(--text-white);
+      font-size: 15px;
+    }
+
+    .highlight-card li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--teal-primary);
+      font-weight: bold;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-top: 36px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 20px;
+      background: var(--teal-primary);
+      border-radius: 2px;
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+    }
+
+    li {
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    strong {
+      color: var(--text-white);
+    }
+
+    a {
+      color: var(--cyan-accent);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--teal-primary);
+      text-decoration: underline;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+      padding-top: 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px 10px;
+      }
+      .container {
+        padding: 24px 18px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand-row">
+        <div class="logo-badge">
+          <!-- Mic / Soundwave Icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+          </svg>
+        </div>
+        <div>
+          <h1>VocaLog: Private Voice Journal</h1>
+          <div class="tagline">100% Offline • Zero Cloud Tracking • Complete Privacy</div>
+        </div>
+      </div>
+      <div class="meta">
+        <strong>Effective Date:</strong> November 15, 2026 &nbsp;|&nbsp; <strong>App Version:</strong> 1.0.0
+      </div>
+    </header>
+
+    <div class="highlight-card">
+      <h2>Privacy Guarantee at a Glance</h2>
+      <ul>
+        <li><strong>No Cloud Audio Uploads:</strong> 100% of speech transcription is performed locally on your device via embedded quantized Whisper C++ AI.</li>
+        <li><strong>No Account Required:</strong> You never register, enter an email, or sign in to use VocaLog.</li>
+        <li><strong>No Ad Networks or Analytics:</strong> We do not track your behavior, log your keystrokes, or sell your data.</li>
+        <li><strong>Full Data Ownership:</strong> Your notes belong exclusively to you. You can export or delete your local database at any time.</li>
+      </ul>
+    </div>
+
+    <section>
+      <h2>1. Overview & Architecture Philosophy</h2>
+      <p>
+        VocaLog was engineered from the ground up with a strict <strong>zero-cloud, local-first</strong> architecture. Traditional voice recorder and transcription applications transmit user audio to remote cloud servers for analysis, introducing privacy vulnerabilities and corporate surveillance. 
+      </p>
+      <p>
+        VocaLog completely eliminates external audio servers. All voice processing, speech-to-text transcription, filler-word filtering, and Bullet Journal categorization occur entirely within your mobile device's sandbox.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Information We Do NOT Collect</h2>
+      <p>Because VocaLog operates offline without remote servers, we do not collect, transmit, or store:</p>
+      <ul>
+        <li><strong>Voice Recordings:</strong> Audio files never leave your device.</li>
+        <li><strong>Text Transcripts & Notes:</strong> Your private thoughts, tasks, reflections, and summaries are stored in a local SQLite database on your device.</li>
+        <li><strong>Personal Identifiable Information (PII):</strong> We do not collect names, email addresses, phone numbers, or physical addresses.</li>
+        <li><strong>Location Data:</strong> VocaLog does not request or access GPS or location coordinates.</li>
+        <li><strong>Device Identifiers & Fingerprints:</strong> We do not collect advertising IDs (AAID/IDFA), IMEI numbers, or MAC addresses.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Device Permissions & How They Are Used</h2>
+      <p>VocaLog requests the minimum set of permissions necessary to deliver its core functionality:</p>
+      <ul>
+        <li>
+          <strong>RECORD_AUDIO (Microphone):</strong> Required strictly to capture spoken audio when you tap the record button, Home Screen widget, or Quick Settings tile. The recorded audio is streamed directly to the on-device hardware decoder and Whisper transcription engine. Audio recordings are never transmitted over the internet.
+        </li>
+        <li>
+          <strong>POST_NOTIFICATIONS:</strong> Used on supported Android and iOS devices solely to display recording status indicators in your notification shade during an active voice session.
+        </li>
+        <li>
+          <strong>FOREGROUND_SERVICE (Android):</strong> Ensures voice recordings are not abruptly interrupted by OS background power management while recording longer notes.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Storage Management & Audio Retention Policy</h2>
+      <p>
+        Voice files can accumulate significant disk space over time. VocaLog features an automated local storage management system:
+      </p>
+      <ul>
+        <li><strong>Standard 21-Day Audio Retention:</strong> By default, local audio files (<code>.m4a</code>) are automatically pruned from your device storage after 21 days to free up device memory.</li>
+        <li><strong>Permanent Text Preservation:</strong> Even after the audio recording is deleted, all formatted text transcripts, executive summaries, category tags, and action checklists remain permanently preserved in your private local SQLite database forever.</li>
+        <li><strong>Custom Retention (VocaLog Pro):</strong> Subscribers can customize the retention schedule (7 days, 14 days, 60 days, or "Keep Forever / Never Purge") directly in the app Settings.</li>
+        <li><strong>Immediate Deletion:</strong> You can delete any individual note or audio file instantly from the Entry Detail screen at any time.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Data Export & Daily Email Digest</h2>
+      <p>
+        VocaLog provides complete data sovereignty. You can export your entire journaling history at any time without vendor lock-in:
+      </p>
+      <ul>
+        <li><strong>Local JSON & Markdown Export:</strong> Generates standard Markdown files (compatible with Obsidian, Notion, Bear, and Logseq) or structured JSON archives saved directly to your phone's file system or shared via your device's native share sheet.</li>
+        <li><strong>Daily Email Digest:</strong> When you choose to email today's notes, VocaLog opens your native email client using a local <code>mailto:</code> link. The email includes only your formatted text transcripts and action checklists; <em>no audio files are attached or transmitted</em>, and no intermediary email servers or web tracking pixels are used.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>6. In-App Purchases & Subscriptions (VocaLog Pro)</h2>
+      <p>
+        VocaLog offers an optional subscription (VocaLog Pro) for $3.49/month (with a 3-day free trial) or an ongoing annual special of $35.00/year, which includes automatic access to all future app updates and new features.
+      </p>
+      <p>
+        In-app purchases are processed exclusively through <strong>Google Play Billing</strong> (for Android) or <strong>Apple App Store In-App Purchases</strong> (for iOS). VocaLog utilizes the industry-standard RevenueCat SDK strictly to validate subscription receipt tokens and unlock Pro entitlements. RevenueCat does not receive your audio, transcripts, notes, or payment card details.
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Children's Privacy</h2>
+      <p>
+        VocaLog does not knowingly collect or solicit any personal information from children under the age of 13 (or under the applicable age of digital consent in your jurisdiction). Because the app operates 100% offline without user accounts or server storage, no personal data from any user is ever collected or harvested.
+      </p>
+    </section>
+
+    <section>
+      <h2>8. Changes to this Privacy Policy</h2>
+      <p>
+        We may update this Privacy Policy from time to time to reflect product improvements, new features, or legal requirements. Any modifications will be posted to this page with an updated "Effective Date." We encourage users to periodically review this page.
+      </p>
+    </section>
+
+    <section>
+      <h2>9. Contact Us & Open Inquiries</h2>
+      <p>
+        If you have any questions, feedback, or concerns regarding this Privacy Policy or your data privacy while using VocaLog, please contact:
+      </p>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:support@vocalog.app">support@vocalog.app</a></li>
+        <li><strong>GitHub Issues:</strong> <a href="https://github.com/parkiteLM/vocalog/issues" target="_blank" rel="noopener">github.com/parkiteLM/vocalog/issues</a></li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 VocaLog. All rights reserved. 100% on-device private voice journaling.</p>
+    </footer>
+  </div>
+</body>
+</html>

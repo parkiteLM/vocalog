@@ -66,8 +66,8 @@ Flexible subscription options:
 
 Subscription terms: Payment is charged to your Apple ID account upon confirmation of purchase. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current billing cycle. Active subscribers receive all continuous updates and new features. Manage your subscription anytime in your App Store Account Settings.
 
-Privacy Policy: 100% on-device local storage. No data collected.
-Terms of Use: https://vocalog.app/terms
+Privacy Policy: https://parkitelm.github.io/vocalog/privacy.html
+Terms of Use: https://parkitelm.github.io/vocalog/
 ```
 
 ---
@@ -79,6 +79,7 @@ Terms of Use: https://vocalog.app/terms
 ```text
 100% offline voice journal. On-device AI turns your voice into bullet notes.
 ```
+* **Privacy Policy URL:** `https://parkitelm.github.io/vocalog/privacy.html`
 
 ### Full Description (Max 4,000 characters)
 ```text
@@ -133,6 +134,7 @@ Upgrade to customize your audio retention schedule (7 days, 14 days, 60 days, or
 * **Audio Data:** *Not Collected*. Audio is processed strictly in temporary device RAM and local app sandboxed storage via hardware decoders. Zero audio bytes are transmitted over the internet.
 
 ### Google Play Data Safety Section:
+* **Privacy Policy URL:** `https://parkitelm.github.io/vocalog/privacy.html`
 * **Does your app collect or share user data?** No.
 * **Is data encrypted in transit?** App runs completely offline; no data is sent to external servers.
 * **Audio files:** Stored strictly on-device in app-private storage (`/data/user/0/com.vocalog.app`). Never shared with third parties.
