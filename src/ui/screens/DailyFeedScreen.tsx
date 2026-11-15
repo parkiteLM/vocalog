@@ -10,11 +10,13 @@ import {
   StatusBar,
   TouchableOpacity,
   Platform,
+  Alert,
 } from 'react-native';
-import { ShieldCheck, Mic, Settings as SettingsIcon } from 'lucide-react-native';
+import { ShieldCheck, Mic, Settings as SettingsIcon, Mail } from 'lucide-react-native';
 import { Colors, Spacing, BorderRadius } from '../../core/theme';
 import { useJournalStore } from '../../state/useJournalStore';
 import { deepLinkService } from '../../core/services/DeepLinkService';
+import { dataExportService } from '../../data/services/DataExportService';
 import { DateNavigator } from '../components/DateNavigator';
 import { EntryCard } from '../components/EntryCard';
 import { FloatingRecordButton } from '../components/FloatingRecordButton';
@@ -23,11 +25,32 @@ import { SettingsModal } from '../components/SettingsModal';
 
 export const DailyFeedScreen: React.FC = () => {
   const {
+    selectedDate,
     entries,
     isLoading,
     runAppStartupRoutine,
   } = useJournalStore();
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+  const [isEmailing, setIsEmailing] = useState(false);
+
+  const handleEmailDailyList = async () => {
+    if (entries.length === 0) {
+      Alert.alert('No Entries', 'There are no notes recorded for this date to email.');
+      return;
+    }
+
+    setIsEmailing(true);
+    try {
+      await dataExportService.emailDailyEntries(entries);
+    } catch (err: any) {
+      Alert.alert(
+        'Email Error',
+        err?.message || 'Unable to open your email application. Please ensure an email account is configured.'
+      );
+    } finally {
+      setIsEmailing(false);
+    }
+  };
 
   useEffect(() => {
     runAppStartupRoutine();
@@ -82,8 +105,20 @@ export const DailyFeedScreen: React.FC = () => {
             <ShieldCheck size={12} color={Colors.primary} style={{ marginRight: 4 }} />
             <Text style={styles.privacyText}>100% Offline</Text>
           </View>
+          {entries.length > 0 && (
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={handleEmailDailyList}
+              disabled={isEmailing}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              accessibilityLabel="Email Daily Notes"
+              accessibilityRole="button"
+            >
+              <Mail size={18} color={Colors.primary} />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
-            style={styles.settingsButton}
+            style={styles.iconButton}
             onPress={() => setIsSettingsVisible(true)}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             accessibilityLabel="Settings"
@@ -194,9 +229,9 @@ const styles = StyleSheet.create({
   headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 8,
   },
-  settingsButton: {
+  iconButton: {
     width: 36,
     height: 36,
     borderRadius: 18,

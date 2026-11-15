@@ -53,7 +53,17 @@ This document captures upcoming features, enhancements, and architectural expans
 
 ---
 
-## 6. Biometric App Lock & Enhanced Privacy
+## 6. Daily Email Digest (Text & Raw Transcript Only)
+* **Goal:** Enable users to email a clean summary of their daily messages/notes directly from the app with a single tap.
+* **Constraints & Privacy:** Includes *only* formatted cleaned prose and raw transcript text; absolutely *no* audio files are included or transmitted.
+* **Key Tasks:**
+  - [ ] **Digest Formatter:** Generate structured plain-text / Markdown daily summary containing formatted text, summaries, action checklists, and raw transcripts.
+  - [ ] **Email Integration:** Trigger system native email client via `mailto:` URL scheme with pre-filled subject and body (or scheduled daily digest via background task).
+  - [ ] **UI Entrypoints:** Add "Email Daily Digest" button in the daily feed header and Settings modal.
+
+---
+
+## 7. Biometric App Lock & Enhanced Privacy
 * **Goal:** Extra layer of security for personal introspective reflections and confidential to-dos.
 * **Key Tasks:**
   - [ ] Face Unlock / Fingerprint authentication before opening the app via `expo-local-authentication`.

@@ -16,6 +16,14 @@ jest.mock('expo-sharing', () => ({
   shareAsync: (...args: any[]) => mockShareAsync(...args),
 }));
 
+const mockCanOpenURL = jest.fn().mockResolvedValue(true);
+const mockOpenURL = jest.fn().mockResolvedValue(true);
+
+jest.mock('expo-linking', () => ({
+  canOpenURL: (url: string) => mockCanOpenURL(url),
+  openURL: (url: string) => mockOpenURL(url),
+}));
+
 import { DataExportService } from '../src/data/services/DataExportService';
 import { JournalEntry } from '../src/data/models/JournalEntry';
 
@@ -130,6 +138,51 @@ describe('DataExportService', () => {
       await expect(
         service.shareExportFile('file:///mock/documents/test.json', 'application/json')
       ).rejects.toThrow('Native file sharing is not available on this platform.');
+    });
+  });
+
+  describe('formatDailyDigestText & emailDailyEntries', () => {
+    it('formats plain-text digest with cleaned prose and raw transcript without audio files', () => {
+      const digest = service.formatDailyDigestText(mockEntries, 'Monday, October 22, 2026');
+
+      expect(digest.subject).toBe('VocaLog Daily Digest — Monday, October 22, 2026');
+      expect(digest.body).toContain('VocaLog Daily Digest');
+      expect(digest.body).toContain('2 Entries');
+      expect(digest.body).toContain('Client Proposal Task');
+      expect(digest.body).toContain('Formatted Text:');
+      expect(digest.body).toContain('Send client proposal by end of day tomorrow.');
+      expect(digest.body).toContain('Raw Transcript:');
+      expect(digest.body).toContain('"Send client proposal by end of day tomorrow."');
+      expect(digest.body).toContain('Architecture Ideas');
+      expect(digest.body).toContain('Reflecting on modular architecture benefits.');
+      expect(digest.body).toContain('"Thinking about the new architecture today."');
+      // Verify audio files are NOT referenced in digest
+      expect(digest.body).not.toContain('.m4a');
+      expect(digest.body).not.toContain('file:///');
+    });
+
+    it('handles empty entries list when generating digest', () => {
+      const digest = service.formatDailyDigestText([], 'Monday, October 22, 2026');
+      expect(digest.body).toContain('No voice notes recorded for this date.');
+    });
+
+    it('opens mailto URL with encoded subject and body', async () => {
+      mockCanOpenURL.mockResolvedValueOnce(true);
+      mockOpenURL.mockResolvedValueOnce(true);
+
+      const result = await service.emailDailyEntries(mockEntries, 'October 22, 2026');
+
+      expect(result).toBe(true);
+      expect(mockCanOpenURL).toHaveBeenCalledWith(expect.stringMatching(/^mailto:\?subject=/));
+      expect(mockOpenURL).toHaveBeenCalledWith(expect.stringMatching(/^mailto:\?subject=/));
+    });
+
+    it('throws error when no email application is available', async () => {
+      mockCanOpenURL.mockResolvedValueOnce(false);
+
+      await expect(
+        service.emailDailyEntries(mockEntries, 'October 22, 2026')
+      ).rejects.toThrow('No email application is configured on this device.');
     });
   });
 });

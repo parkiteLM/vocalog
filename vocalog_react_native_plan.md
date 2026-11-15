@@ -148,7 +148,8 @@ See full details in [`docs/FUTURE_ROADMAP.md`](docs/FUTURE_ROADMAP.md).
 * **2. iOS Native WidgetKit Extension:** Swift `accessoryCircular` and iOS 18 `ControlWidget` targets.
 * **3. SQLite Full-Text Search (FTS5):** Instant keyword search across all archived notes and category feed filters.
 * **4. Audio Waveform & Speed Controls:** 1.25x/1.5x/2.0x playback with visual waveform scrubbers.
-* **5. Biometric Lock:** Optional Face Unlock / Fingerprint security via `expo-local-authentication`.
+* **5. Daily Email Digest (Text & Raw Transcript Only):** 1-tap email digest of the day's formatted notes, checklist items, and raw transcripts with zero audio files attached.
+* **6. Biometric Lock:** Optional Face Unlock / Fingerprint security via `expo-local-authentication`.
 
 ---
 

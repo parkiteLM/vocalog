@@ -9,7 +9,7 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { X, ShieldCheck, FileText, Download, Sparkles, Clock, Check, HelpCircle, ChevronRight } from 'lucide-react-native';
+import { X, ShieldCheck, FileText, Download, Sparkles, Clock, Check, HelpCircle, ChevronRight, Mail } from 'lucide-react-native';
 import { Colors, Spacing, BorderRadius } from '../../core/theme';
 import { databaseService } from '../../data/services/DatabaseService';
 import { dataExportService } from '../../data/services/DataExportService';
@@ -81,6 +81,19 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ visible, onClose }
       Alert.alert('Export Error', 'Unable to complete Markdown export.');
     } finally {
       setIsExporting(false);
+    }
+  };
+
+  const handleEmailTodayNotes = async () => {
+    if (entries.length === 0) {
+      Alert.alert('No Notes', 'There are no notes recorded for today to email.');
+      return;
+    }
+
+    try {
+      await dataExportService.emailDailyEntries(entries);
+    } catch (err: any) {
+      Alert.alert('Email Error', err?.message || 'Unable to open email client.');
     }
   };
 
@@ -245,6 +258,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ visible, onClose }
                     )}
                   </TouchableOpacity>
                 </View>
+
+                {/* Email Daily Digest button */}
+                <TouchableOpacity
+                  style={[styles.exportBtn, { marginTop: Spacing.sm }]}
+                  onPress={handleEmailTodayNotes}
+                  activeOpacity={0.7}
+                >
+                  <Mail size={16} color={Colors.primary} style={{ marginRight: 6 }} />
+                  <Text style={styles.exportBtnText}>Email Today's Notes (Text Only)</Text>
+                </TouchableOpacity>
               </View>
 
               {/* Privacy & Architecture Guarantee */}
